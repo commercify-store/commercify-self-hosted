@@ -1,0 +1,17 @@
+{
+    "name": "commercify/self-hosted",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Commercify\\SelfHosted\\": "App"
+        },
+        "classmap": ["src/App", "public"]
+    },
+    "authors": [
+        {
+            "name": "Commercify",
+            "email": "support@commercify.store"
+        }
+    ],
+    "require": {}
+}

@@ -1,0 +1,100 @@
+#ddev-generated
+
+http:
+  routers:
+    
+    
+    self-hosted.commercify.nl-web-80-http:
+      
+      rule: HostRegexp(`self-hosted.commercify.nl.ddev.site`)
+      
+      middlewares:
+        - autodetect
+      service: "self-hosted.commercify.nl-web-80-http"
+      tls: false
+      entrypoints:
+        - http-80
+    
+    
+    self-hosted.commercify.nl-web-8025-http:
+      
+      rule: HostRegexp(`self-hosted.commercify.nl.ddev.site`)
+      
+      middlewares:
+        - autodetect
+      service: "self-hosted.commercify.nl-web-8025-http"
+      tls: false
+      entrypoints:
+        - http-8025
+    
+    
+    
+    
+    
+    
+    self-hosted.commercify.nl-web-80-https:
+      
+      rule: HostRegexp(`self-hosted.commercify.nl.ddev.site`)
+      
+      middlewares:
+        - autodetect
+      service: "self-hosted.commercify.nl-web-80-https"
+      
+      tls: true
+      
+      entrypoints:
+        - http-443
+    
+    
+    self-hosted.commercify.nl-web-8025-https:
+      
+      rule: HostRegexp(`self-hosted.commercify.nl.ddev.site`)
+      
+      middlewares:
+        - autodetect
+      service: "self-hosted.commercify.nl-web-8025-https"
+      
+      tls: true
+      
+      entrypoints:
+        - http-8026
+    
+    
+
+  # autodetect won't be needed in Traefik 3 https://github.com/traefik/traefik/pull/9546
+  middlewares:
+    autodetect:
+      contentType:
+        autoDetect: false
+
+  services:
+    
+    self-hosted.commercify.nl-web-80-http:
+      loadbalancer:
+        servers:
+          - url: http://ddev-self-hosted.commercify.nl-web:80
+    
+    self-hosted.commercify.nl-web-8025-http:
+      loadbalancer:
+        servers:
+          - url: http://ddev-self-hosted.commercify.nl-web:8025
+    
+    self-hosted.commercify.nl-web-80-https:
+    
+      loadbalancer:
+        servers:
+          - url: http://ddev-self-hosted.commercify.nl-web:80
+    
+    self-hosted.commercify.nl-web-8025-https:
+    
+      loadbalancer:
+        servers:
+          - url: http://ddev-self-hosted.commercify.nl-web:8025
+    
+
+
+tls:
+  certificates:
+    - certFile: /mnt/ddev-global-cache/traefik/certs/self-hosted.commercify.nl.crt
+      keyFile: /mnt/ddev-global-cache/traefik/certs/self-hosted.commercify.nl.key
+
