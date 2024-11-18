@@ -13,5 +13,7 @@
             "email": "support@commercify.store"
         }
     ],
-    "require": {}
+    "require": {
+        "twig/twig": "^3.0"
+    }
 }
