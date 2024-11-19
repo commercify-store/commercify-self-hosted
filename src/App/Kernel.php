@@ -2,24 +2,24 @@
 
 namespace App;
 
-use App\Middleware\Common\Renderer;
+use App\Common\Renderer;
 
 class Kernel
 {
-    private $rendererMiddleware;
+    private $renderer;
 
     public function __construct()
     {
-        $this->rendererMiddleware = new Renderer();
+        $this->renderer = new Renderer();
     }
 
     public function handle(): void
     {
-        echo 'Handle';
-    }
+        /* 
+         * TODO Add Controller logic here and replace rendering 
+         * implementation with proper one from controller infrastructure
+         */
 
-    private function configure(): void
-    {
-        $this->rendererMiddleware->configure();
+        echo $this->renderer->render('index.html.twig');
     }
 }
