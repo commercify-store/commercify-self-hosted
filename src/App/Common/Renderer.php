@@ -10,13 +10,13 @@ class Renderer
     public function render(string $name, array $context = []): string
     {
         $twig = $this->configure();
-        
+
         return $twig->render($name, $context);
     }
 
     private function configure(): Environment
     {
-        $loader = new FilesystemLoader(__DIR__ . '/../../../Templates');
+        $loader = new FilesystemLoader(__DIR__ . '/../../../templates');
         $twig = new Environment($loader);
 
         return $twig;

@@ -3,14 +3,18 @@
 namespace App;
 
 use App\Common\Renderer;
+use App\Controller\ControllerFactory;
 
 class Kernel
 {
-    private $renderer;
+    private Renderer $renderer;
+
+    private ControllerFactory $controllerFactory;
 
     public function __construct()
     {
         $this->renderer = new Renderer();
+        $this->controllerFactory = new ControllerFactory();
     }
 
     public function handle(): void
@@ -20,6 +24,9 @@ class Kernel
          * implementation with proper one from controller infrastructure
          */
 
-        echo $this->renderer->render('index.html.twig');
+        $controllerFactory = new ControllerFactory();
+        $controller = $this->controllerFactory->create($this->renderer);
+
+        $controller->get();
     }
 }
