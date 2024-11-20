@@ -17,16 +17,15 @@ class Kernel
         $this->controllerFactory = new ControllerFactory();
     }
 
-    public function handle(): void
+    public function handle(): string
     {
         /* 
          * TODO Add Controller logic here and replace rendering 
          * implementation with proper one from controller infrastructure
          */
 
-        $controllerFactory = new ControllerFactory();
         $controller = $this->controllerFactory->create($this->renderer);
 
-        $controller->get();
+        return $controller->get();
     }
 }

@@ -4,5 +4,5 @@ namespace App\Controller;
 
 interface ControllerInterface
 {
-    public function get();
+    public function get(): string;
 }
