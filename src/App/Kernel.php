@@ -20,12 +20,22 @@ class Kernel
     public function handle(): string
     {
         /* 
+         * TODO Add middlewares to prepare request to be handled
+         */
+
+        /* 
          * TODO Add Controller logic here and replace rendering 
          * implementation with proper one from controller infrastructure
          */
 
         $controller = $this->controllerFactory->create($this->renderer);
 
-        return $controller->get();
+        $response = $controller->get();
+
+        /* 
+         * TODO Add middlewares to prepare response to be sent
+         */
+
+        return $response;
     }
 }

@@ -5,4 +5,11 @@ use App\Kernel;
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 $kernel = new Kernel();
-echo $kernel->handle();
+
+/*
+ * TODO Setup request here and send as a parameter to $kernel->handle()
+ */
+
+$response = $kernel->handle();
+
+echo $response;
