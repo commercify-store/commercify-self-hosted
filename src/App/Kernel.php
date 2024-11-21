@@ -4,20 +4,25 @@ namespace App;
 
 use App\Common\Renderer;
 use App\Controller\ControllerFactory;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Psr\Http\Message\ResponseInterface;
 
 class Kernel
 {
+    private ControllerFactory $controllerFactory;
+
     private Renderer $renderer;
 
-    private ControllerFactory $controllerFactory;
+    private Psr17Factory $responseFactory;
 
     public function __construct()
     {
-        $this->renderer = new Renderer();
         $this->controllerFactory = new ControllerFactory();
+        $this->renderer = new Renderer();
+        $this->responseFactory = new Psr17Factory();
     }
 
-    public function handle(): string
+    public function handle(): ResponseInterface
     {
         /* 
          * TODO Add middlewares to prepare request to be handled
@@ -28,7 +33,7 @@ class Kernel
          * implementation with proper one from controller infrastructure
          */
 
-        $controller = $this->controllerFactory->create($this->renderer);
+        $controller = $this->controllerFactory->create($this->renderer, $this->responseFactory);
 
         $response = $controller->get();
 

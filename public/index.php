@@ -12,4 +12,4 @@ $kernel = new Kernel();
 
 $response = $kernel->handle();
 
-echo $response;
+echo (string)$response->getBody();

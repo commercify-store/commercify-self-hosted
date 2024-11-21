@@ -7,11 +7,17 @@ use Twig\Loader\FilesystemLoader;
 
 class Renderer
 {
+    private Environment $environment;
+
+    public function __construct()
+    {
+        $this->environment = $this->configure();
+    }
+
     public function render(string $name, array $context = []): string
     {
-        $twig = $this->configure();
 
-        return $twig->render($name, $context);
+        return $this->environment->render($name, $context);
     }
 
     private function configure(): Environment
