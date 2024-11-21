@@ -33,7 +33,10 @@ class Kernel
          * implementation with proper one from controller infrastructure
          */
 
-        $controller = $this->controllerFactory->create($this->renderer, $this->responseFactory);
+        $controller = $this->controllerFactory->create(
+            $this->renderer,
+            $this->responseFactory
+        );
 
         $response = $controller->get();
 
