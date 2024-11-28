@@ -24,11 +24,11 @@ class Kernel
 
     public function handle(): ResponseInterface
     {
-        /* 
+        /*
          * TODO Add middlewares to prepare request to be handled
          */
 
-        /* 
+        /*
          * TODO Add Controller logic here and replace rendering 
          * implementation with proper one from controller infrastructure
          */
@@ -40,7 +40,7 @@ class Kernel
 
         $response = $controller->get();
 
-        /* 
+        /*
          * TODO Add middlewares to prepare response to be sent
          */
 
