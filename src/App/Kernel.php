@@ -20,7 +20,7 @@
 
 namespace App;
 
-use App\Common\Renderer;
+use App\Modules\Renderer;
 use App\Controller\ControllerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
