@@ -18,31 +18,27 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace App\Modules;
+namespace App\Modules\Renderer;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-class Renderer
-{
-    private Environment $environment;
-
-    public function __construct()
+class RendererFactory {
+    public function create(): Environment
     {
-        $this->environment = $this->configure();
-    }
+        /*
+            We always default to Twig as it's built-in already.
 
-    public function render(string $name, array $context = []): string
-    {
+            If you want to use another templating language, it is recommended to replace the Twig
+            implementation below with your own templating setup.
 
-        return $this->environment->render($name, $context);
-    }
+            Remember that when replacing Twig with another templating language, you need to modify the code
+            in App\Modules\Renderer\Renderer to accomodate for it. See instructions for that in the Renderer
+            class.
+        */
+        $loader = new FilesystemLoader(__DIR__ . '/../../../../templates');
+        $renderer = new Environment($loader);
 
-    private function configure(): Environment
-    {
-        $loader = new FilesystemLoader(__DIR__ . '/../../../templates');
-        $twig = new Environment($loader);
-
-        return $twig;
+        return $renderer;
     }
 }

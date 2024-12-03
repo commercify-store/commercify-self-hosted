@@ -20,7 +20,7 @@
 
 namespace App\Controller;
 
-use App\Modules\Renderer;
+use App\Modules\Renderer\Renderer;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use App\Controller\ControllerInterface;
 use App\Controller\StaticPageController;

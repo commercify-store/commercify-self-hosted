@@ -18,31 +18,33 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace App\Controller;
+namespace App\Modules\Renderer;
 
-use App\Modules\Renderer\Renderer;
-use App\Controller\BaseController;
-use Nyholm\Psr7\Factory\Psr17Factory;
-use Psr\Http\Message\ResponseInterface;
-use App\Controller\ControllerInterface;
+use App\Modules\Renderer\RendererFactory;
 
-class StaticPageController extends BaseController implements ControllerInterface
+class Renderer
 {
-    private Renderer $renderer;
+    private string $templatingLanguage;
 
-    private Psr17Factory $responseFactory;
+    private rendererFactory $rendererFactory;
 
-    public function __construct(Renderer $renderer, Psr17Factory $responseFactory,)
+    public function __construct()
     {
-        $this->renderer = $renderer;
-        $this->responseFactory = $responseFactory;
+        $this->rendererFactory = new RendererFactory();
     }
 
-    public function get(): ResponseInterface
+    public function render(string $name, array $context = []): string
     {
-        $content = $this->renderer->render('pages/index.html.twig');
-        $responseBody = $this->responseFactory->createStream($content);
+        $renderer = $this->rendererFactory->create();
 
-        return $this->responseFactory->createResponse()->withBody($responseBody);
+        /*
+            We always default to Twig as it's built-in already.
+
+            If you want to use another templating language, it is recommended to replace the rendering
+            implementation below with your own templating setup.
+        */
+        $content = $renderer->render($name, $context);
+
+        return $content;
     }
 }
