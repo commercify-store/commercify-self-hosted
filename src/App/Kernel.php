@@ -42,26 +42,15 @@ class Kernel
 
     public function handle(): ResponseInterface
     {
-        /*
-         * TODO Add middlewares to prepare request to be handled
-         */
-
-        /*
-         * TODO Add Controller logic here and replace rendering 
-         * implementation with proper one from controller infrastructure
-         */
-
+        // TODO Add proper controller logic with routing
         $controller = $this->controllerFactory->create(
             $this->renderer,
             $this->responseFactory
         );
 
+        // TODO Add support for more HTTP methods (currently only supporting GET)
         $response = $controller->get();
-
-        /*
-         * TODO Add middlewares to prepare response to be sent
-         */
-
+        
         return $response;
     }
 }

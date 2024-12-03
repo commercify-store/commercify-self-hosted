@@ -20,29 +20,18 @@
 
 namespace App\Modules\Renderer;
 
-use App\Modules\Renderer\RendererFactory;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class Renderer
 {
-    private string $templatingLanguage;
-
-    private rendererFactory $rendererFactory;
-
-    public function __construct()
-    {
-        $this->rendererFactory = new RendererFactory();
-    }
+    const TEMPLATES_PATH = '/../../../../templates';
 
     public function render(string $name, array $context = []): string
     {
-        $renderer = $this->rendererFactory->create();
+        $loader = new FilesystemLoader(__DIR__ . self::TEMPLATES_PATH);
+        $renderer = new Environment($loader);
 
-        /*
-            We always default to Twig as it's built-in already.
-
-            If you want to use another templating language, it is recommended to replace the rendering
-            implementation below with your own templating setup.
-        */
         $content = $renderer->render($name, $context);
 
         return $content;
