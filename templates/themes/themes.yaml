@@ -1,0 +1,5 @@
+active_theme:
+  name: "commercify-default"
+  version: "0.1.0"
+  templates_path: "themes/commercify-default.ctheme/"
+  page_templates_path: "themes/commercify-default.ctheme/pages/"

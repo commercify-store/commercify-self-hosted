@@ -40,7 +40,7 @@ class StaticPageController extends BaseController implements ControllerInterface
 
     public function get(): ResponseInterface
     {
-        $content = $this->renderer->render('pages/index.html.twig');
+        $content = $this->renderer->render('themes/commercify-default.ctheme/pages/index.html.twig');
         $responseBody = $this->responseFactory->createStream($content);
 
         return $this->responseFactory->createResponse()->withBody($responseBody);

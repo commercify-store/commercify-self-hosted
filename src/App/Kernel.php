@@ -20,6 +20,7 @@
 
 namespace App;
 
+use Symfony\Component\Yaml\Yaml;
 use App\Modules\Renderer\Renderer;
 use App\Controller\ControllerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -42,6 +43,8 @@ class Kernel
 
     public function handle(): ResponseInterface
     {
+        $themesConfig = $this->getThemesConfig();
+
         // TODO Add proper controller logic with routing
         $controller = $this->controllerFactory->create(
             $this->renderer,
@@ -52,5 +55,10 @@ class Kernel
         $response = $controller->get();
         
         return $response;
+    }
+
+    private function getThemesConfig(): array
+    {
+        return Yaml::parseFile(__DIR__ . '/../../templates/themes/themes.yaml');
     }
 }
