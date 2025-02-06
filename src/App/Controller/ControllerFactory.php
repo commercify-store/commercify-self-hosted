@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
     Commercify Self Hosted - An e-commerce framework
@@ -21,19 +21,21 @@
 namespace App\Controller;
 
 use App\Modules\Renderer\Renderer;
+use App\Modules\Themes\ThemeManager;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use App\Controller\ControllerInterface;
 use App\Controller\StaticPageController;
 
 class ControllerFactory {
-    public function create(Renderer $renderer, Psr17Factory $responseFactory): ControllerInterface
+    public function create(Renderer $renderer, Psr17Factory $responseFactory, ThemeManager $themeManager): ControllerInterface
     {
         /*
          * TODO Implement proper controller creation here according to routes etc.
          */
         $controller = new StaticPageController(
             $renderer,
-            $responseFactory
+            $responseFactory,
+            $themeManager->getActiveTheme()
         );
 
         return $controller;

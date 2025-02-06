@@ -18,10 +18,30 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-use App\Kernel;
+namespace App\Modules\Themes;
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+class Theme {
+    private $name;
 
-$kernel = new Kernel();
-$response = $kernel->handle();
-echo (string)$response->getBody();
+    private $version;
+
+    private $path;
+
+    public function __construct(string $name, string $version, string $path) {
+        $this->name = $name;
+        $this->version = $version;
+        $this->path = $path;
+    }
+
+    public function getName(): string {
+        return $this->name;
+    }
+
+    public function getVersion(): string {
+        return $this->version;
+    }
+
+    public function getPath(): string {
+        return $this->path;
+    }
+}

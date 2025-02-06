@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 if (!defined('SERVER_ROOT')) {
     define(

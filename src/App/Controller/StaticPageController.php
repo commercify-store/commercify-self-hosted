@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
     Commercify Self Hosted - An e-commerce framework
@@ -20,8 +20,9 @@
 
 namespace App\Controller;
 
-use App\Modules\Renderer\Renderer;
+use App\Modules\Themes\Theme;
 use App\Controller\BaseController;
+use App\Modules\Renderer\Renderer;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
 use App\Controller\ControllerInterface;
@@ -32,15 +33,18 @@ class StaticPageController extends BaseController implements ControllerInterface
 
     private Psr17Factory $responseFactory;
 
-    public function __construct(Renderer $renderer, Psr17Factory $responseFactory,)
+    private Theme $activeTheme;
+
+    public function __construct(Renderer $renderer, Psr17Factory $responseFactory, Theme $activeTheme)
     {
         $this->renderer = $renderer;
         $this->responseFactory = $responseFactory;
+        $this->activeTheme = $activeTheme;
     }
 
     public function get(): ResponseInterface
     {
-        $content = $this->renderer->render('themes/commercify-default.ctheme/pages/index.html.twig');
+        $content = $this->renderer->render("{$this->activeTheme->getPath()}/pages/index.html.twig");
         $responseBody = $this->responseFactory->createStream($content);
 
         return $this->responseFactory->createResponse()->withBody($responseBody);

@@ -1,6 +1,4 @@
-<?php
-
-/*
+{# 
     Commercify Self Hosted - An e-commerce framework
     Copyright (C) 2024 Erol Simsir
 
@@ -16,12 +14,15 @@
 
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
-*/
+#}
 
-use App\Kernel;
+{% extends 'base.html.twig' %}
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+{% set page_id = 'index' %}
+{% set title = 'Commercify - Self Hosted' %}
+{% set description = 'Commercify Self Hosted is a powerful e-commerce web framework to develop full featured online stores.' %}
+{% set indexBySearchEngines = true %}
 
-$kernel = new Kernel();
-$response = $kernel->handle();
-echo (string)$response->getBody();
+{% block content %}
+    <h1>Commercify Self Hosted</h1>
+{% endblock %}

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
     Commercify Self Hosted - An e-commerce framework
@@ -20,8 +20,8 @@
 
 namespace App;
 
-use Symfony\Component\Yaml\Yaml;
 use App\Modules\Renderer\Renderer;
+use App\Modules\Themes\ThemeManager;
 use App\Controller\ControllerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
@@ -34,31 +34,28 @@ class Kernel
 
     private Psr17Factory $responseFactory;
 
+    private ThemeManager $themeManager;
+
     public function __construct()
     {
         $this->controllerFactory = new ControllerFactory();
         $this->renderer = new Renderer();
         $this->responseFactory = new Psr17Factory();
+        $this->themeManager = new ThemeManager();
     }
 
     public function handle(): ResponseInterface
     {
-        $themesConfig = $this->getThemesConfig();
-
         // TODO Add proper controller logic with routing
         $controller = $this->controllerFactory->create(
             $this->renderer,
-            $this->responseFactory
+            $this->responseFactory,
+            $this->themeManager
         );
 
         // TODO Add support for more HTTP methods (currently only supporting GET)
         $response = $controller->get();
         
         return $response;
-    }
-
-    private function getThemesConfig(): array
-    {
-        return Yaml::parseFile(__DIR__ . '/../../templates/themes/themes.yaml');
     }
 }

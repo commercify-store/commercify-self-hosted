@@ -18,22 +18,36 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace App\Modules\Renderer;
+namespace App\Modules\Themes;
 
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
+use App\Modules\Themes\Theme;
+use Symfony\Component\Yaml\Yaml;
 
-class Renderer
+class ThemeManager
 {
-    const TEMPLATES_PATH = '/../../../../templates';
+    private $themeConfig;
 
-    public function render(string $name, array $context = []): string
+    public function __construct()
     {
-        $loader = new FilesystemLoader(__DIR__ . self::TEMPLATES_PATH);
-        $renderer = new Environment($loader);
+        $this->themeConfig = $this->getThemesConfig();
+    }
 
-        $content = $renderer->render($name, $context);
+    public function getActiveTheme(): Theme
+    {
+        return new Theme(
+            $this->themeConfig['active_theme']['name'],
+            $this->themeConfig['active_theme']['version'],
+            $this->themeConfig['active_theme']['path']
+        );
+    }
 
-        return $content;
+    public function getInstalledThemes(): array
+    {
+        return $this->themeConfig['installed_themes'];
+    }
+
+    private function getThemesConfig(): array
+    {
+        return Yaml::parseFile(__DIR__ . '/../../../../templates/themes/themes.yaml');
     }
 }

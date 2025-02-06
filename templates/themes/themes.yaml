@@ -1,5 +1,14 @@
 active_theme:
   name: "commercify-default"
   version: "0.1.0"
-  templates_path: "themes/commercify-default.ctheme/"
-  page_templates_path: "themes/commercify-default.ctheme/pages/"
+  path: "themes/commercify-default.ctheme/"
+
+installed_themes:
+  commercify-default:
+    name: "commercify-default"
+    version: "0.1.0"
+    path: "themes/commercify-default.ctheme/"
+  test-theme-1:
+    name: "test-theme-1"
+    version: "1.0.0"
+    path: "themes/test-theme-1.ctheme/"
