@@ -18,15 +18,26 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace App\Constants;
+namespace App\Modules\Security\BadUserAgentBlocker;
 
-class Constants
+class BadUserAgentBlocker
 {
-    const SERVER_ROOT = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+    private $userAgent;
 
-    const WEB_SERVER_ROOT = 'https://self-hosted.commercify.store';
+    public function __construct()
+    {
+        $this->userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    }
 
-    const DOCS_ROOT =  self::WEB_SERVER_ROOT . '/docs';
-
-    const ERRORS_ROOT = self::WEB_SERVER_ROOT . '/error';
+    public function isBadUserAgent(): bool
+    {
+        foreach (BadUserAgents::BAD_USER_AGENTS as $badAgent) {
+            if (stripos($this->userAgent, $badAgent) !== false) {
+                error_log("Blocked bad user agent: $this->userAgent");
+                return true;
+            }
+        }  
+        
+        return false;
+    }
 }

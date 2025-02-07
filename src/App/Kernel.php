@@ -25,6 +25,7 @@ use App\Modules\Themes\ThemeManager;
 use App\Controller\ControllerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
+use App\Modules\Security\BadUserAgentBlocker\BadUserAgentBlocker;
 
 class Kernel
 {
@@ -36,26 +37,51 @@ class Kernel
 
     private ThemeManager $themeManager;
 
+    private BadUserAgentBlocker $badUserAgentBlocker;
+
     public function __construct()
     {
         $this->controllerFactory = new ControllerFactory();
         $this->renderer = new Renderer();
         $this->responseFactory = new Psr17Factory();
         $this->themeManager = new ThemeManager();
+        $this->badUserAgentBlocker = new BadUserAgentBlocker();
     }
 
     public function handle(): ResponseInterface
     {
-        // TODO Add proper controller logic with routing
+        /**
+         * We want to catch bad requests early. We're handling the response for those here early on instead of 
+         * going all the way down to the factory and controller layers.
+         */
+        if ($this->isBadUserAgent() === true) {
+            return $this->forbidden();
+        }
+
         $controller = $this->controllerFactory->create(
             $this->renderer,
             $this->responseFactory,
             $this->themeManager
         );
 
-        // TODO Add support for more HTTP methods (currently only supporting GET)
         $response = $controller->get();
         
         return $response;
+    }
+
+    private function isBadUserAgent(): bool
+    {
+        return $this->badUserAgentBlocker->isBadUserAgent();
+    }
+
+    private function forbidden(): ResponseInterface
+    {
+        http_response_code(403);
+    
+        return $this->responseFactory
+            ->createResponse(403, 'Access denied.')
+            ->withBody(
+                $this->responseFactory->createStream('Access denied.')
+            );   
     }
 }
