@@ -29,9 +29,7 @@ use App\Controller\StaticPageController;
 class ControllerFactory {
     public function create(Renderer $renderer, Psr17Factory $responseFactory, ThemeManager $themeManager): ControllerInterface
     {
-        /*
-         * TODO Implement proper controller creation here according to routes etc.
-         */
+        // TODO Implement proper controller creation here according to routes etc.
         $controller = new StaticPageController(
             $renderer,
             $responseFactory,

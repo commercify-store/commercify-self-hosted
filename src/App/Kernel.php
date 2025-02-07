@@ -52,11 +52,12 @@ class Kernel
     public function handle(): ResponseInterface
     {
         /**
-         * We want to catch bad requests early. We're handling the response for those here early on instead of 
-         * going all the way down to the factory and controller layers.
+         * We want to catch bad requests/errors early. We're handling the response for those here early on 
+         * instead of going all the way down to the factory and controller layers.
          */
-        if ($this->isForbidden() === true) {
-            return $this->createForbiddenResponse();
+        $requestError = $this->isRequestError();
+        if ($requestError !== false) {
+            return $this->createErrorResponse($requestError);
         }
 
         $controller = $this->controllerFactory->create(
@@ -65,33 +66,30 @@ class Kernel
             $this->themeManager
         );
 
+        // TODO Add support for other HTTP methods
         $response = $controller->get();
         
         return $response;
     }
 
-    private function isForbidden(): bool
+    private function isRequestError(): array|bool
     {
-        // TODO Add other forbidden cases here
-        return $this->isBadUserAgent();
+        // TODO Add other error cases here. Group them in if statements for each error code.
+        if ($this->badUserAgentBlocker->isBadUserAgent() === true) {
+            return Constants::HTTP_ERRORS[403];
+        }
+
+        return false;
     }
 
-    private function isBadUserAgent(): bool
+    private function createErrorResponse(array $errorStatus): ResponseInterface
     {
-        return $this->badUserAgentBlocker->isBadUserAgent();
-    }
-
-    private function createForbiddenResponse(): ResponseInterface
-    {
-        $statusCode = Constants::HTTP_ERRORS[403]['code'];
-        $message = Constants::HTTP_ERRORS[403]['message'];
-
-        http_response_code($statusCode);
+        http_response_code($errorStatus['code']);
     
         return $this->responseFactory
-            ->createResponse($statusCode, $message)
+            ->createResponse($errorStatus['code'])
             ->withBody(
-                $this->responseFactory->createStream($message)
-            );   
+                $this->responseFactory->createStream($errorStatus['message'])
+            );
     }
 }
