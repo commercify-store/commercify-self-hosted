@@ -18,30 +18,23 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace App\Modules\Themes;
+namespace App\Exceptions;
 
-use App\Modules\Themes\Theme;
+use Exception;
+use Throwable;
 
-class ThemeManager
+class HttpException extends Exception
 {
-    private $themeConfig;
+    private int $statusCode;
 
-    public function __construct(array $themeConfig)
+    public function __construct(int $statusCode, string $message = "", Throwable $previous = null)
     {
-        $this->themeConfig = $themeConfig;
+        parent::__construct($message, $statusCode, $previous);
+        $this->statusCode = $statusCode;
     }
 
-    public function getActiveTheme(): Theme
+    public function getStatusCode(): int
     {
-        return new Theme(
-            $this->themeConfig['active_theme']['name'],
-            $this->themeConfig['active_theme']['version'],
-            $this->themeConfig['active_theme']['path']
-        );
-    }
-
-    public function getInstalledThemes(): array
-    {
-        return $this->themeConfig['installed_themes'];
+        return $this->statusCode;
     }
 }

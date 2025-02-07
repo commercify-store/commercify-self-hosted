@@ -21,6 +21,8 @@
 namespace App;
 
 use App\Constants\Constants;
+use Symfony\Component\Yaml\Yaml;
+use App\Exceptions\HttpException;
 use App\Modules\Renderer\Renderer;
 use App\Modules\Themes\ThemeManager;
 use App\Controller\ControllerFactory;
@@ -31,73 +33,58 @@ use App\Modules\Security\BadUserAgentBlocker\BadUserAgentBlocker;
 class Kernel
 {
     private ControllerFactory $controllerFactory;
-
+    
     private Renderer $renderer;
-
+    
     private Psr17Factory $responseFactory;
-
-    private ThemeManager $themeManager;
-
+    
     private BadUserAgentBlocker $badUserAgentBlocker;
+    
+    private ThemeManager $themeManager;
 
     public function __construct()
     {
         $this->controllerFactory = new ControllerFactory();
         $this->renderer = new Renderer();
         $this->responseFactory = new Psr17Factory();
-        $this->themeManager = new ThemeManager();
         $this->badUserAgentBlocker = new BadUserAgentBlocker();
+        $this->themeManager = new ThemeManager(
+            Yaml::parseFile(Constants::THEME_CONFIG_FILE_PATH)
+        );
     }
 
     public function handle(): ResponseInterface
     {
-        /**
-         * We want to catch bad requests/errors early. We're handling the response for those here early on 
-         * instead of going all the way down to the factory and controller layers.
-         * 
-         * Only 404 is handled gracefully by the NotFoundController.
-         */
-        $requestError = $this->isRequestError();
-        
-        if ($requestError !== false) {
-            // Handling 404 gracefully here.
-            if ($requestError['code'] === 404) {
-                // todo handle 404.
-            }
+        try {
+            $this->isRequestError();
 
-            return $this->createErrorResponse($requestError);
+            $controller = $this->controllerFactory->create(
+                $this->renderer,
+                $this->responseFactory,
+                $this->themeManager
+            );
+
+            return $controller->get();
+        } catch (HttpException $e) {
+            http_response_code($e->getStatusCode());
+            return $this->createErrorResponse($e->getStatusCode(), $e->getMessage());
         }
-
-        $controller = $this->controllerFactory->create(
-            $this->renderer,
-            $this->responseFactory,
-            $this->themeManager
-        );
-
-        // todo Add support for other HTTP methods.
-        $response = $controller->get();
-        
-        return $response;
     }
 
-    private function isRequestError(): array|bool
+    private function isRequestError(): void
     {
-        // todo Add other error cases here. Group them in if statements for each error code.
-        if ($this->badUserAgentBlocker->isBadUserAgent() === true) {
-            return Constants::HTTP_ERRORS[403];
+        // todo Add other error cases here, grouped in if conditions for each error code
+        if ($this->badUserAgentBlocker->isBadUserAgent()) {
+            throw new HttpException(403, Constants::HTTP_ERRORS[403]['message']);
         }
-
-        return false;
     }
 
-    private function createErrorResponse(array $errorStatus): ResponseInterface
+    private function createErrorResponse(int $code, string $message): ResponseInterface
     {
-        http_response_code($errorStatus['code']);
-    
         return $this->responseFactory
-            ->createResponse($errorStatus['code'])
+            ->createResponse($code)
             ->withBody(
-                $this->responseFactory->createStream($errorStatus['message'])
+                $this->responseFactory->createStream($message)
             );
     }
 }
