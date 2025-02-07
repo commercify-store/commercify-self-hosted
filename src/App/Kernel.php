@@ -58,6 +58,7 @@ class Kernel
          * Only 404 is handled gracefully by the NotFoundController.
          */
         $requestError = $this->isRequestError();
+        
         if ($requestError !== false) {
             // Handling 404 gracefully here.
             if ($requestError['code'] === 404) {

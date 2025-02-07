@@ -31,13 +31,18 @@ class BadUserAgentBlocker
 
     public function isBadUserAgent(): bool
     {
-        foreach (BadUserAgents::BAD_USER_AGENTS as $badAgent) {
-            if (stripos($this->userAgent, $badAgent) !== false) {
-                error_log("Blocked bad user agent: $this->userAgent");
-                return true;
-            }
-        }  
-        
+        static $pattern = null;
+
+        if ($pattern === null) {
+            $escapedAgents = array_map(fn($agent) => preg_quote($agent, '~'), BadUserAgents::BAD_USER_AGENTS);
+            $pattern = '~(' . implode('|', $escapedAgents) . ')~i';
+        }
+
+        if (preg_match($pattern, $this->userAgent)) {
+            error_log("Blocked bad user agent: $this->userAgent");
+            return true;
+        }
+
         return false;
     }
 }
