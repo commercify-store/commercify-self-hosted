@@ -21,7 +21,6 @@
 namespace App;
 
 use App\Constants\Constants;
-use Symfony\Component\Yaml\Yaml;
 use App\Exceptions\HttpException;
 use App\Modules\Renderer\Renderer;
 use App\Modules\Themes\ThemeManager;
@@ -42,21 +41,25 @@ class Kernel
     
     private ThemeManager $themeManager;
 
-    public function __construct()
+    public function __construct(
+        ControllerFactory $controllerFactory,
+        Renderer $renderer,
+        Psr17Factory $responseFactory,
+        BadUserAgentBlocker $badUserAgentBlocker,
+        ThemeManager $themeManager
+    )
     {
-        $this->controllerFactory = new ControllerFactory();
-        $this->renderer = new Renderer();
-        $this->responseFactory = new Psr17Factory();
-        $this->badUserAgentBlocker = new BadUserAgentBlocker();
-        $this->themeManager = new ThemeManager(
-            Yaml::parseFile(Constants::THEME_CONFIG_FILE_PATH)
-        );
+        $this->controllerFactory = $controllerFactory;
+        $this->renderer = $renderer;
+        $this->responseFactory = $responseFactory;
+        $this->badUserAgentBlocker = $badUserAgentBlocker;
+        $this->themeManager = $themeManager;
     }
 
     public function handle(): ResponseInterface
     {
         try {
-            $this->isRequestError();
+            $this->checkForRequestErrors();
 
             $controller = $this->controllerFactory->create(
                 $this->renderer,
@@ -71,7 +74,7 @@ class Kernel
         }
     }
 
-    private function isRequestError(): void
+    private function checkForRequestErrors(): void
     {
         // todo Add other error cases here, grouped in if conditions for each error code
         if ($this->badUserAgentBlocker->isBadUserAgent()) {

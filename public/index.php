@@ -19,9 +19,35 @@
 */
 
 use App\Kernel;
+use App\Constants\Constants;
+use Symfony\Component\Yaml\Yaml;
+use App\Modules\Renderer\Renderer;
+use App\Modules\Themes\ThemeManager;
+use App\Controller\ControllerFactory;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use App\Modules\Security\BadUserAgentBlocker\BadUserAgentBlocker;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-$kernel = new Kernel();
+/**
+ * We are instantiating the dependencies for Kernel here and injecting them later on below for testing 
+ * purposes. Injecting dependencies from this level into Kernel makes the Kernel class more easily testable.
+ */
+$controllerFactory = new ControllerFactory();
+$renderer = new Renderer();
+$responseFactory = new Psr17Factory();
+$badUserAgentBlocker = new BadUserAgentBlocker();
+$themeManager = new ThemeManager(
+    Yaml::parseFile(Constants::THEME_CONFIG_FILE_PATH)
+);
+
+$kernel = new Kernel(
+    $controllerFactory,
+    $renderer,
+    $responseFactory,
+    $badUserAgentBlocker,
+    $themeManager
+);
+
 $response = $kernel->handle();
 echo $response->getBody();
