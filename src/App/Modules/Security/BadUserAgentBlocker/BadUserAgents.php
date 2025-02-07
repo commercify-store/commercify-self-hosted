@@ -22,7 +22,7 @@ namespace App\Modules\Security\BadUserAgentBlocker;
 
 class BadUserAgents
 {
-    const BAD_USER_AGENTS = [
+    public const BAD_USER_AGENTS = [
         'AhrefsBot',
         'MJ12bot',
         'SemrushBot',

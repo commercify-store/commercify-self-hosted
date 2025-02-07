@@ -20,6 +20,7 @@
 
 namespace App;
 
+use App\Constants\Constants;
 use App\Modules\Renderer\Renderer;
 use App\Modules\Themes\ThemeManager;
 use App\Controller\ControllerFactory;
@@ -54,8 +55,8 @@ class Kernel
          * We want to catch bad requests early. We're handling the response for those here early on instead of 
          * going all the way down to the factory and controller layers.
          */
-        if ($this->isBadUserAgent() === true) {
-            return $this->forbidden();
+        if ($this->isForbidden() === true) {
+            return $this->createForbiddenResponse();
         }
 
         $controller = $this->controllerFactory->create(
@@ -69,19 +70,29 @@ class Kernel
         return $response;
     }
 
+    private function isForbidden(): bool
+    {
+        // TODO Add other forbidden cases here
+        return $this->isBadUserAgent();
+    }
+
     private function isBadUserAgent(): bool
     {
         return $this->badUserAgentBlocker->isBadUserAgent();
     }
 
-    private function forbidden(): ResponseInterface
+    private function createForbiddenResponse(): ResponseInterface
     {
-        http_response_code(403);
+        Constants::init();
+        $statusCode = Constants::HTTP_ERRORS[403]['code'];
+        $message = Constants::HTTP_ERRORS[403]['message'];
+
+        http_response_code($statusCode);
     
         return $this->responseFactory
-            ->createResponse(403, 'Access denied.')
+            ->createResponse($statusCode, $message)
             ->withBody(
-                $this->responseFactory->createStream('Access denied.')
+                $this->responseFactory->createStream($message)
             );   
     }
 }
