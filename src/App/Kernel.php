@@ -54,9 +54,16 @@ class Kernel
         /**
          * We want to catch bad requests/errors early. We're handling the response for those here early on 
          * instead of going all the way down to the factory and controller layers.
+         * 
+         * Only 404 is handled gracefully by the NotFoundController.
          */
         $requestError = $this->isRequestError();
         if ($requestError !== false) {
+            // Handling 404 gracefully here.
+            if ($requestError['code'] === 404) {
+                // todo handle 404.
+            }
+
             return $this->createErrorResponse($requestError);
         }
 
@@ -66,7 +73,7 @@ class Kernel
             $this->themeManager
         );
 
-        // TODO Add support for other HTTP methods
+        // todo Add support for other HTTP methods.
         $response = $controller->get();
         
         return $response;
@@ -74,7 +81,7 @@ class Kernel
 
     private function isRequestError(): array|bool
     {
-        // TODO Add other error cases here. Group them in if statements for each error code.
+        // todo Add other error cases here. Group them in if statements for each error code.
         if ($this->badUserAgentBlocker->isBadUserAgent() === true) {
             return Constants::HTTP_ERRORS[403];
         }
