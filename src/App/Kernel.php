@@ -83,7 +83,6 @@ class Kernel
 
     private function createForbiddenResponse(): ResponseInterface
     {
-        Constants::init();
         $statusCode = Constants::HTTP_ERRORS[403]['code'];
         $message = Constants::HTTP_ERRORS[403]['message'];
 

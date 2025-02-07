@@ -22,25 +22,6 @@ namespace App\Constants;
 
 class Constants
 {
-    /**
-     * Constants must be assigned values that are known at compile-time, while expressions like 
-     * $_SERVER['HTTPS'] and $_SERVER['HTTP_HOST'] are runtime variables. Therefore, we need to use a class
-     * property to make this work properly. This approach is or will be used throughout this file when needed.
-     */
-    public static $SERVER_ROOT;
-
-    public static function init(): void {
-        self::$SERVER_ROOT = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
-    }
-
-    // Other constants that be assigned values directly are added below.
-    public const WEB_SERVER_ROOT = 'https://self-hosted.commercify.store';
-
-    public const DOCS_ROOT =  self::WEB_SERVER_ROOT . '/docs';
-
-    public const ERRORS_ROOT = self::WEB_SERVER_ROOT . '/error';
-
-    // Errors
     public const HTTP_ERRORS = [
         400 => ["code" => 400, "message" => "Bad Request"],
         401 => ["code" => 401, "message" => "Unauthorized"],
