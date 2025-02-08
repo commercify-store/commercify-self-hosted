@@ -34,15 +34,13 @@ class StaticPageController extends AbstractController
 
     private Theme $activeTheme;
 
-    public function __construct(Renderer $renderer, Psr17Factory $psr17Factory, Theme $activeTheme)
-    {
+    public function __construct(Renderer $renderer, Psr17Factory $psr17Factory, Theme $activeTheme) {
         $this->renderer = $renderer;
         $this->psr17Factory = $psr17Factory;
         $this->activeTheme = $activeTheme;
     }
 
-    public function get(): ResponseInterface
-    {
+    public function get(): ResponseInterface {
         $content = $this->renderer->render("{$this->activeTheme->getPath()}/pages/index.html.twig");
         $responseBody = $this->psr17Factory->createStream($content);
 

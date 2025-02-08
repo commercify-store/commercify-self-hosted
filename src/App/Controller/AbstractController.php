@@ -20,112 +20,63 @@
 
 namespace App\Controller;
 
+use App\Config\Constants;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 
-abstract class AbstractController {
+abstract class AbstractController
+{
+    protected Psr17Factory $psr17Factory;
+
+    public function __construct() {
+        $this->psr17Factory = new Psr17Factory();
+    }
+
+    protected function methodNotAllowed(): ResponseInterface {
+        $notAllowedError = Constants::HTTP_ERRORS[405];
+
+        http_response_code($notAllowedError['code']);
+        return $this->psr17Factory
+            ->createResponse($notAllowedError['code'])
+            ->withBody($this->psr17Factory->createStream($notAllowedError['message']));
+    }
+
     public function get(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
-        http_response_code(405);
-
-        return $psr17Factory
-            ->createResponse(405)
-            ->withBody(
-                $psr17Factory->createStream('Method Not Allowed')
-            );
+        return $this->methodNotAllowed();
     }
-
     public function post(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
-        http_response_code(405);
-        
-        return $psr17Factory
-            ->createResponse(405)
-            ->withBody(
-                $psr17Factory->createStream('Method Not Allowed')
-            );
+        return $this->methodNotAllowed();
     }
-
     public function put(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
-        http_response_code(405);
-        
-        return $psr17Factory
-            ->createResponse(405)
-            ->withBody(
-                $psr17Factory->createStream('Method Not Allowed')
-            );
+        return $this->methodNotAllowed();
     }
-
     public function delete(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
-        http_response_code(405);
-        
-        return $psr17Factory
-            ->createResponse(405)
-            ->withBody(
-                $psr17Factory->createStream('Method Not Allowed')
-            );
+        return $this->methodNotAllowed();
     }
-
     public function patch(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
-        http_response_code(405);
-        
-        return $psr17Factory
-            ->createResponse(405)
-            ->withBody(
-                $psr17Factory->createStream('Method Not Allowed')
-            );
+        return $this->methodNotAllowed();
     }
-
     public function options(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
-        http_response_code(405);
-        
-        return $psr17Factory
-            ->createResponse(405)
-            ->withBody(
-                $psr17Factory->createStream('Method Not Allowed')
-            );
+        return $this->methodNotAllowed();
     }
-
     public function query(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
-        http_response_code(405);
-        
-        return $psr17Factory
-            ->createResponse(405)
-            ->withBody(
-                $psr17Factory->createStream('Method Not Allowed')
-            );
+        return $this->methodNotAllowed();
     }
-
     public function head(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
-        http_response_code(405);
-        
-        return $psr17Factory
-            ->createResponse(405)
-            ->withBody(
-                $psr17Factory->createStream('Method Not Allowed')
-            );
+        return $this->methodNotAllowed();
     }
 
-    protected function redirectToRoute(
-        string $route,
-        ResponseFactoryInterface $psr17Factory
-    ): ResponseInterface {
-        return $psr17Factory->createResponse(302) ->withHeader('Location', $route);
+    // todo Check if this function is still good
+    protected function redirectToRoute(string $route, ResponseFactoryInterface $psr17Factory): ResponseInterface {
+        return $psr17Factory->createResponse(302)->withHeader('Location', $route);
     }
 
-    protected function getRequestBody(): ?array
-    {
-        $requestFactory = new Psr17Factory();
-        $queryString = $requestFactory->createStreamFromFile('php://input');
+    // todo Check if this function is still good
+    protected function getRequestBody(): ?array {
+        $queryString = $this->psr17Factory->createStreamFromFile('php://input');
 
-        if (!isset($queryString) || empty($queryString) || $queryString === '') {
+        if (empty($queryString->getContents())) {
             return null;
         }
 

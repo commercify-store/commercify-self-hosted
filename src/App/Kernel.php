@@ -35,13 +35,13 @@ class Kernel
     private ControllerFactory $controllerFactory;
 
     private ServerRequestInterface $request;
-    
+
     private Renderer $renderer;
-    
+
     private Psr17Factory $psr17Factory;
-    
+
     private BadUserAgentBlocker $badUserAgentBlocker;
-    
+
     private ThemeManager $themeManager;
 
     public function __construct(
@@ -51,8 +51,7 @@ class Kernel
         Renderer $renderer,
         BadUserAgentBlocker $badUserAgentBlocker,
         ThemeManager $themeManager
-    )
-    {
+    ) {
         $this->psr17Factory = $psr17Factory;
         $this->request = $request;
         $this->controllerFactory = $controllerFactory;
@@ -61,8 +60,7 @@ class Kernel
         $this->themeManager = $themeManager;
     }
 
-    public function handle(): ResponseInterface
-    {
+    public function handle(): ResponseInterface {
         try {
             $this->checkForRequestErrors();
 
@@ -72,8 +70,10 @@ class Kernel
                 $this->themeManager
             );
 
-            $httpRequestMethod = strtolower($_SERVER['REQUEST_METHOD']);
-          
+            // todo Check if a made up HTTP method can be passed which will result in an error that does not
+            // get caught
+            $httpRequestMethod = strtolower($this->request->getMethod());
+
             return $controller->$httpRequestMethod();
         } catch (HttpException $e) {
             http_response_code($e->getStatusCode());
@@ -81,16 +81,17 @@ class Kernel
         }
     }
 
-    private function checkForRequestErrors(): void
-    {
+    private function checkForRequestErrors(): void {
         // todo Add other error cases here, grouped in if conditions for each error code
         if ($this->badUserAgentBlocker->isBadUserAgent()) {
-            throw new HttpException(403, Constants::HTTP_ERRORS[403]['message']);
+            throw new HttpException(
+                Constants::HTTP_ERRORS[403]['code'],
+                Constants::HTTP_ERRORS[403]['message']
+            );
         }
     }
 
-    private function createErrorResponse(int $code, string $message): ResponseInterface
-    {
+    private function createErrorResponse(int $code, string $message): ResponseInterface {
         // todo Instead of just outputting the error message, render an error page with the message
         return $this->psr17Factory
             ->createResponse($code)

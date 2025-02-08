@@ -46,4 +46,4 @@ Currently, CSH does not have any solutions for (automated) deployment. However, 
 
 ### Your own implementations for deployment
 
-If you wish to work with pipelines (CI/CD for example)
+If you wish to work with pipelines (CI/CD for example), you can do that by yourself. CSH is not opinionated on that level. It is simply a LAMP application with a simple setup.

@@ -24,13 +24,11 @@ class BadUserAgentBlocker
 {
     private $userAgent;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
     }
 
-    public function isBadUserAgent(): bool
-    {
+    public function isBadUserAgent(): bool {
         static $pattern = null;
 
         if ($pattern === null) {

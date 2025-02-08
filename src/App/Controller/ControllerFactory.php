@@ -26,7 +26,8 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use App\Controller\AbstractController;
 use App\Controller\StaticPageController;
 
-class ControllerFactory {
+class ControllerFactory
+{
     public function create(
         Renderer $renderer,
         Psr17Factory $psr17Factory,

@@ -27,8 +27,7 @@ class Renderer
 {
     const TEMPLATES_PATH = '/../../../../templates';
 
-    public function render(string $name, array $context = []): string
-    {
+    public function render(string $name, array $context = []): string {
         $loader = new FilesystemLoader(__DIR__ . self::TEMPLATES_PATH);
         $renderer = new Environment($loader);
 

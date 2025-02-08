@@ -20,7 +20,8 @@
 
 namespace App\Modules\Themes;
 
-class Theme {
+class Theme
+{
     private $name;
 
     private $version;
