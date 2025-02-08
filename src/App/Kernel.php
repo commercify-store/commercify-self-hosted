@@ -84,6 +84,7 @@ class Kernel
 
     private function createErrorResponse(int $code, string $message): ResponseInterface
     {
+        // todo Instead of just outputting the error message, render an error page with the message
         return $this->responseFactory
             ->createResponse($code)
             ->withBody(
