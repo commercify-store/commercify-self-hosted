@@ -25,58 +25,110 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 
+// todo Clean up repetetive code in this file
+
 abstract class AbstractController
 {
-    protected Psr17Factory $psr17Factory;
-
-    public function __construct() {
-        $this->psr17Factory = new Psr17Factory();
-    }
-
-    protected function methodNotAllowed(): ResponseInterface {
-        $notAllowedError = Constants::HTTP_ERRORS[405];
-
-        http_response_code($notAllowedError['code']);
-        return $this->psr17Factory
-            ->createResponse($notAllowedError['code'])
-            ->withBody($this->psr17Factory->createStream($notAllowedError['message']));
-    }
-
     public function get(): ResponseInterface {
-        return $this->methodNotAllowed();
-    }
-    public function post(): ResponseInterface {
-        return $this->methodNotAllowed();
-    }
-    public function put(): ResponseInterface {
-        return $this->methodNotAllowed();
-    }
-    public function delete(): ResponseInterface {
-        return $this->methodNotAllowed();
-    }
-    public function patch(): ResponseInterface {
-        return $this->methodNotAllowed();
-    }
-    public function options(): ResponseInterface {
-        return $this->methodNotAllowed();
-    }
-    public function query(): ResponseInterface {
-        return $this->methodNotAllowed();
-    }
-    public function head(): ResponseInterface {
-        return $this->methodNotAllowed();
+        $psr17Factory = new Psr17Factory();
+        http_response_code(Constants::HTTP_ERRORS[405]['code']);
+
+        return $psr17Factory
+            ->createResponse(Constants::HTTP_ERRORS[405]['code'])
+            ->withBody(
+                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+            );
     }
 
-    // todo Check if this function is still good
-    protected function redirectToRoute(string $route, ResponseFactoryInterface $psr17Factory): ResponseInterface {
+    public function post(): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+        http_response_code(Constants::HTTP_ERRORS[405]['code']);
+
+        return $psr17Factory
+            ->createResponse(Constants::HTTP_ERRORS[405]['code'])
+            ->withBody(
+                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+            );
+    }
+
+    public function put(): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+        http_response_code(Constants::HTTP_ERRORS[405]['code']);
+
+        return $psr17Factory
+            ->createResponse(Constants::HTTP_ERRORS[405]['code'])
+            ->withBody(
+                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+            );
+    }
+
+    public function delete(): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+        http_response_code(Constants::HTTP_ERRORS[405]['code']);
+
+        return $psr17Factory
+            ->createResponse(Constants::HTTP_ERRORS[405]['code'])
+            ->withBody(
+                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+            );
+    }
+
+    public function patch(): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+        http_response_code(Constants::HTTP_ERRORS[405]['code']);
+
+        return $psr17Factory
+            ->createResponse(Constants::HTTP_ERRORS[405]['code'])
+            ->withBody(
+                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+            );
+    }
+
+    public function options(): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+        http_response_code(Constants::HTTP_ERRORS[405]['code']);
+
+        return $psr17Factory
+            ->createResponse(Constants::HTTP_ERRORS[405]['code'])
+            ->withBody(
+                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+            );
+    }
+
+    public function query(): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+        http_response_code(Constants::HTTP_ERRORS[405]['code']);
+
+        return $psr17Factory
+            ->createResponse(Constants::HTTP_ERRORS[405]['code'])
+            ->withBody(
+                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+            );
+    }
+
+    public function head(): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+        http_response_code(Constants::HTTP_ERRORS[405]['code']);
+
+        return $psr17Factory
+            ->createResponse(Constants::HTTP_ERRORS[405]['code'])
+            ->withBody(
+                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+            );
+    }
+
+    protected function redirectToRoute(
+        string $route,
+        ResponseFactoryInterface $psr17Factory
+    ): ResponseInterface {
         return $psr17Factory->createResponse(302)->withHeader('Location', $route);
     }
 
-    // todo Check if this function is still good
     protected function getRequestBody(): ?array {
-        $queryString = $this->psr17Factory->createStreamFromFile('php://input');
+        $requestFactory = new Psr17Factory();
+        $queryString = $requestFactory->createStreamFromFile('php://input');
 
-        if (empty($queryString->getContents())) {
+        if (!isset($queryString) || empty($queryString) || $queryString === '') {
             return null;
         }
 
