@@ -20,38 +20,43 @@
 
 namespace App;
 
-use App\Constants\Constants;
+use App\Config\Constants;
 use App\Exceptions\HttpException;
 use App\Modules\Renderer\Renderer;
 use App\Modules\Themes\ThemeManager;
 use App\Controller\ControllerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use App\Modules\Security\BadUserAgentBlocker\BadUserAgentBlocker;
 
 class Kernel
 {
     private ControllerFactory $controllerFactory;
+
+    private ServerRequestInterface $request;
     
     private Renderer $renderer;
     
-    private Psr17Factory $responseFactory;
+    private Psr17Factory $psr17Factory;
     
     private BadUserAgentBlocker $badUserAgentBlocker;
     
     private ThemeManager $themeManager;
 
     public function __construct(
+        Psr17Factory $psr17Factory,
+        ServerRequestInterface $request,
         ControllerFactory $controllerFactory,
         Renderer $renderer,
-        Psr17Factory $responseFactory,
         BadUserAgentBlocker $badUserAgentBlocker,
         ThemeManager $themeManager
     )
     {
+        $this->psr17Factory = $psr17Factory;
+        $this->request = $request;
         $this->controllerFactory = $controllerFactory;
         $this->renderer = $renderer;
-        $this->responseFactory = $responseFactory;
         $this->badUserAgentBlocker = $badUserAgentBlocker;
         $this->themeManager = $themeManager;
     }
@@ -63,7 +68,7 @@ class Kernel
 
             $controller = $this->controllerFactory->create(
                 $this->renderer,
-                $this->responseFactory,
+                $this->psr17Factory,
                 $this->themeManager
             );
 
@@ -85,10 +90,10 @@ class Kernel
     private function createErrorResponse(int $code, string $message): ResponseInterface
     {
         // todo Instead of just outputting the error message, render an error page with the message
-        return $this->responseFactory
+        return $this->psr17Factory
             ->createResponse($code)
             ->withBody(
-                $this->responseFactory->createStream($message)
+                $this->psr17Factory->createStream($message)
             );
     }
 }

@@ -21,32 +21,31 @@
 namespace App\Controller;
 
 use App\Modules\Themes\Theme;
-use App\Controller\BaseController;
 use App\Modules\Renderer\Renderer;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
-use App\Controller\ControllerInterface;
+use App\Controller\AbstractController;
 
-class StaticPageController extends BaseController implements ControllerInterface
+class StaticPageController extends AbstractController
 {
     private Renderer $renderer;
 
-    private Psr17Factory $responseFactory;
+    private Psr17Factory $psr17Factory;
 
     private Theme $activeTheme;
 
-    public function __construct(Renderer $renderer, Psr17Factory $responseFactory, Theme $activeTheme)
+    public function __construct(Renderer $renderer, Psr17Factory $psr17Factory, Theme $activeTheme)
     {
         $this->renderer = $renderer;
-        $this->responseFactory = $responseFactory;
+        $this->psr17Factory = $psr17Factory;
         $this->activeTheme = $activeTheme;
     }
 
     public function get(): ResponseInterface
     {
         $content = $this->renderer->render("{$this->activeTheme->getPath()}/pages/index.html.twig");
-        $responseBody = $this->responseFactory->createStream($content);
+        $responseBody = $this->psr17Factory->createStream($content);
 
-        return $this->responseFactory->createResponse()->withBody($responseBody);
+        return $this->psr17Factory->createResponse()->withBody($responseBody);
     }
 }

@@ -18,13 +18,19 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+/**
+ * This project follows the front controller pattern. All traffic is directed to this file.
+ * See the .htaccess file for how the traffic is directed here.
+ */
+
 use App\Kernel;
-use App\Constants\Constants;
+use App\Config\Constants;
 use Symfony\Component\Yaml\Yaml;
 use App\Modules\Renderer\Renderer;
 use App\Modules\Themes\ThemeManager;
 use App\Controller\ControllerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7Server\ServerRequestCreator;
 use App\Modules\Security\BadUserAgentBlocker\BadUserAgentBlocker;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
@@ -33,18 +39,26 @@ require_once(__DIR__ . '/../vendor/autoload.php');
  * We are instantiating the dependencies for Kernel here and injecting them later on below for testing 
  * purposes. Injecting dependencies from this level into Kernel makes the Kernel class more easily testable.
  */
+$psr17Factory = new Psr17Factory();
+$requestCreator = new ServerRequestCreator(
+    $psr17Factory,
+    $psr17Factory,
+    $psr17Factory,
+    $psr17Factory
+);
+$request = $requestCreator->fromGlobals();
 $controllerFactory = new ControllerFactory();
 $renderer = new Renderer();
-$responseFactory = new Psr17Factory();
 $badUserAgentBlocker = new BadUserAgentBlocker();
 $themeManager = new ThemeManager(
     Yaml::parseFile(Constants::THEME_CONFIG_FILE_PATH)
 );
 
 $kernel = new Kernel(
+    $psr17Factory,
+    $request,
     $controllerFactory,
     $renderer,
-    $responseFactory,
     $badUserAgentBlocker,
     $themeManager
 );
