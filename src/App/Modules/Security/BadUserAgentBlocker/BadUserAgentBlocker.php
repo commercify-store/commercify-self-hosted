@@ -34,7 +34,10 @@ class BadUserAgentBlocker
         static $pattern = null;
 
         if ($pattern === null) {
-            $escapedAgents = array_map(fn($agent) => preg_quote($agent, '~'), BadUserAgents::BAD_USER_AGENTS);
+            $escapedAgents = array_map(
+                fn($agent) => preg_quote($agent, '~'),
+                BadUserAgents::BAD_USER_AGENTS
+            );
             $pattern = '~(' . implode('|', $escapedAgents) . ')~i';
         }
 
