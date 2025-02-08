@@ -1,5 +1,6 @@
 /vendor/
 /node_modules/
 /__diagrams__/
+/__resources__/
 .phpunit.result.cache
 .DS_Store

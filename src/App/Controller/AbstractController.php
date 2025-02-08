@@ -70,6 +70,50 @@ abstract class AbstractController {
             );
     }
 
+    public function patch(): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+        http_response_code(405);
+        
+        return $psr17Factory
+            ->createResponse(405)
+            ->withBody(
+                $psr17Factory->createStream('Method Not Allowed')
+            );
+    }
+
+    public function options(): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+        http_response_code(405);
+        
+        return $psr17Factory
+            ->createResponse(405)
+            ->withBody(
+                $psr17Factory->createStream('Method Not Allowed')
+            );
+    }
+
+    public function query(): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+        http_response_code(405);
+        
+        return $psr17Factory
+            ->createResponse(405)
+            ->withBody(
+                $psr17Factory->createStream('Method Not Allowed')
+            );
+    }
+
+    public function head(): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+        http_response_code(405);
+        
+        return $psr17Factory
+            ->createResponse(405)
+            ->withBody(
+                $psr17Factory->createStream('Method Not Allowed')
+            );
+    }
+
     protected function redirectToRoute(
         string $route,
         ResponseFactoryInterface $psr17Factory
