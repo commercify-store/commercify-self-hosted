@@ -7,6 +7,10 @@
         },
         "classmap": ["src", "src/App", "public"]
     },
+    "scripts": {
+        "update-dependencies": "composer update",
+        "test": "./vendor/bin/phpunit"
+    },
     "authors": [
         {
             "name": "Commercify",
