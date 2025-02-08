@@ -27,8 +27,11 @@ use App\Controller\AbstractController;
 use App\Controller\StaticPageController;
 
 class ControllerFactory {
-    public function create(Renderer $renderer, Psr17Factory $psr17Factory, ThemeManager $themeManager): AbstractController
-    {
+    public function create(
+        Renderer $renderer,
+        Psr17Factory $psr17Factory,
+        ThemeManager $themeManager
+    ): AbstractController {
         // todo Implement proper controller creation here according to routes etc.
         $controller = new StaticPageController(
             $renderer,

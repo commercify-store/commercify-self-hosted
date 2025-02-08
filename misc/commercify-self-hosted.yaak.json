@@ -1,0 +1,84 @@
+{
+  "yaakVersion": "2024.13.0",
+  "yaakSchema": 2,
+  "timestamp": "2025-02-08T20:03:04.396440",
+  "resources": {
+    "workspaces": [
+      {
+        "model": "workspace",
+        "id": "wk_NLVaxAXEpZ",
+        "createdAt": "2025-02-07T00:33:51",
+        "updatedAt": "2025-02-07T00:33:51",
+        "name": "Yaak",
+        "description": "",
+        "variables": [],
+        "settingValidateCertificates": true,
+        "settingFollowRedirects": true,
+        "settingRequestTimeout": 0
+      }
+    ],
+    "environments": [],
+    "folders": [
+      {
+        "model": "folder",
+        "id": "fl_9xtoIIFLK2",
+        "createdAt": "2025-02-08T16:52:26",
+        "updatedAt": "2025-02-08T16:52:33",
+        "workspaceId": "wk_NLVaxAXEpZ",
+        "folderId": null,
+        "name": "self-hosted.commercify.store.ddev.site",
+        "sortPriority": 1000.0
+      }
+    ],
+    "httpRequests": [
+      {
+        "model": "http_request",
+        "id": "rq_ZXF8Kyix74",
+        "createdAt": "2025-02-08T16:51:08",
+        "updatedAt": "2025-02-08T16:53:03",
+        "workspaceId": "wk_NLVaxAXEpZ",
+        "folderId": "fl_9xtoIIFLK2",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "headers": [],
+        "method": "PUT",
+        "name": "Request with unimplemented PUT method",
+        "sortPriority": 0.0,
+        "url": "https://self-hosted.commercify.store.ddev.site/",
+        "urlParameters": []
+      },
+      {
+        "model": "http_request",
+        "id": "rq_1QeyvSthvl",
+        "createdAt": "2025-02-07T00:34:00",
+        "updatedAt": "2025-02-08T16:53:03",
+        "workspaceId": "wk_NLVaxAXEpZ",
+        "folderId": "fl_9xtoIIFLK2",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "headers": [
+          {
+            "enabled": true,
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": ""
+          }
+        ],
+        "method": "GET",
+        "name": "Request with bad user agent",
+        "sortPriority": 1000.0,
+        "url": "https://self-hosted.commercify.store.ddev.site/",
+        "urlParameters": []
+      }
+    ],
+    "grpcRequests": []
+  }
+}

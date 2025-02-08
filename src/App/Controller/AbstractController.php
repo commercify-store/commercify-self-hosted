@@ -26,7 +26,6 @@ use Psr\Http\Message\ResponseFactoryInterface;
 
 abstract class AbstractController {
     public function get(): ResponseInterface {
-
         $psr17Factory = new Psr17Factory();
         http_response_code(405);
 
