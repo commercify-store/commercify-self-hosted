@@ -72,7 +72,9 @@ class Kernel
                 $this->themeManager
             );
 
-            return $controller->get();
+            $httpRequestMethod = strtolower($_SERVER['REQUEST_METHOD']);
+          
+            return $controller->$httpRequestMethod();
         } catch (HttpException $e) {
             http_response_code($e->getStatusCode());
             return $this->createErrorResponse($e->getStatusCode(), $e->getMessage());
