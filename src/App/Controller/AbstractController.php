@@ -25,7 +25,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 
-// todo Clean up repetetive code in this file
+// todo Clean up repetitive code in this file
 
 abstract class AbstractController
 {
@@ -115,26 +115,5 @@ abstract class AbstractController
             ->withBody(
                 $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
             );
-    }
-
-    protected function redirectToRoute(
-        string $route,
-        ResponseFactoryInterface $psr17Factory
-    ): ResponseInterface {
-        return $psr17Factory->createResponse(302)->withHeader('Location', $route);
-    }
-
-    protected function getRequestBody(): ?array {
-        $requestFactory = new Psr17Factory();
-        $queryString = $requestFactory->createStreamFromFile('php://input');
-
-        if (!isset($queryString) || empty($queryString) || $queryString === '') {
-            return null;
-        }
-
-        $data = [];
-        parse_str($queryString->getContents(), $data);
-
-        return $data;
     }
 }
