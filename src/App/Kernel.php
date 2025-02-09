@@ -21,7 +21,6 @@
 namespace App;
 
 use App\Config\Constants;
-use InvalidArgumentException;
 use App\Exceptions\HttpException;
 use App\Controller\ControllerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -53,11 +52,12 @@ class Kernel
 
     public function handle(): ResponseInterface {
         try {
-            $httpRequestMethod = strtolower($this->request->getMethod());
-            $this->checkForRequestErrors($httpRequestMethod);
+            $this->validateRequest();
+            
             // todo Pass the correct controllerName based on routing
             $controller = $this->controllerFactory->create('static');
 
+            $httpRequestMethod = strtolower($this->request->getMethod());
             return $controller->$httpRequestMethod();
         } catch (HttpException $e) {
             http_response_code($e->getStatusCode());
@@ -65,7 +65,7 @@ class Kernel
         }
     }
 
-    private function checkForRequestErrors(string $httpRequestMethod): void {
+    private function validateRequest(): void {
         // todo Add other error cases here, grouped in if conditions for each error code
         if ($this->badUserAgentBlocker->isBadUserAgent()) {
             throw new HttpException(
@@ -74,7 +74,13 @@ class Kernel
             );
         }
 
-        if (!in_array($httpRequestMethod, Constants::ALLOWED_HTTP_METHODS, true)) {
+        if (
+            !in_array(
+                strtolower($this->request->getMethod()),
+                Constants::ALLOWED_HTTP_METHODS,
+                true
+            )
+        ) {
             throw new HttpException(
                 Constants::HTTP_ERRORS[405]['code'],
                 Constants::HTTP_ERRORS[405]['message']

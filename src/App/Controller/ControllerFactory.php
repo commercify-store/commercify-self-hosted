@@ -50,6 +50,9 @@ class ControllerFactory
             'static' => StaticPageController::class,
         ];
 
+        // todo Check if this fault is caught early on in Kernel, so we can skip this check here. Or, we can
+        // throw a different exception. The route might actually exist, but for whatever reason the wrong name
+        // can be passed down here. The error should reflect that.
         if (!isset($controllers[$controllerName])) {
             throw new HttpException(
                 Constants::HTTP_ERRORS[404]['code'],
