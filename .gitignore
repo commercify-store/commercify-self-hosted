@@ -1,5 +1,6 @@
 /vendor/
 /node_modules/
+/templates/cache/
 /__diagrams__/
 /__resources__/
 .phpunit.result.cache

@@ -21,18 +21,33 @@
 namespace App\Modules\Renderer;
 
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\SyntaxError;
+use Twig\Error\RuntimeError;
 use Twig\Loader\FilesystemLoader;
 
 class Renderer
 {
-    const TEMPLATES_PATH = '/../../../../templates';
+    private Environment $twig;
 
-    public function render(string $name, array $context = []): string {
-        $loader = new FilesystemLoader(__DIR__ . self::TEMPLATES_PATH);
-        $renderer = new Environment($loader);
+    public function __construct(string $templatesPath, string $templatesCachePath)
+    {
+        $loader = new FilesystemLoader($templatesPath);
 
-        $content = $renderer->render($name, $context);
+        $this->twig = new Environment($loader, [
+            'cache' => $templatesCachePath,
+            'debug' => true,
+            'auto_reload' => true,
+        ]);
+    }
 
-        return $content;
+    public function render(string $template, array $context = []): string
+    {
+        try {
+            return $this->twig->render($template, $context);
+        } catch (LoaderError | RuntimeError | SyntaxError $e) {
+            return "Template Error: " . $e->getMessage();
+        }
     }
 }
+

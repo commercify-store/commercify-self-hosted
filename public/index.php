@@ -48,7 +48,10 @@ $requestCreator = new ServerRequestCreator(
 );
 $request = $requestCreator->fromGlobals();
 $controllerFactory = new ControllerFactory();
-$renderer = new Renderer();
+$renderer = new Renderer(
+    Constants::TEMPLATES_PATH,
+    Constants::TEMPLATES_CACHE_PATH
+);
 $badUserAgentBlocker = new BadUserAgentBlocker();
 $themeManager = new ThemeManager(
     Yaml::parseFile(Constants::THEME_CONFIG_FILE_PATH)
