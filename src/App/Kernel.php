@@ -56,10 +56,17 @@ class Kernel
             $this->checkForRequestErrors();
 
             $controller = $this->controllerFactory->create('static');
-
-            // todo Check if a made up HTTP method can be passed which will result in an error that does not
-            // get caught
             $httpRequestMethod = strtolower($this->request->getMethod());
+
+            if (
+                !in_array($httpRequestMethod, Constants::ALLOWED_HTTP_METHODS, true)
+                || !method_exists($controller, $httpRequestMethod)
+            ) {
+                throw new HttpException(
+                    Constants::HTTP_ERRORS[405]['code'],
+                    Constants::HTTP_ERRORS[405]['message']
+                );
+            }
 
             return $controller->$httpRequestMethod();
         } catch (HttpException $e) {

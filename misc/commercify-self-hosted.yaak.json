@@ -1,7 +1,7 @@
 {
   "yaakVersion": "2024.13.0",
   "yaakSchema": 2,
-  "timestamp": "2025-02-08T20:03:04.396440",
+  "timestamp": "2025-02-09T05:22:09.108269",
   "resources": {
     "workspaces": [
       {
@@ -21,6 +21,16 @@
     "folders": [
       {
         "model": "folder",
+        "id": "fl_5w52vg16sl",
+        "createdAt": "2025-02-08T20:03:20",
+        "updatedAt": "2025-02-08T20:03:25",
+        "workspaceId": "wk_NLVaxAXEpZ",
+        "folderId": "fl_9xtoIIFLK2",
+        "name": "Tests",
+        "sortPriority": 1000.0
+      },
+      {
+        "model": "folder",
         "id": "fl_9xtoIIFLK2",
         "createdAt": "2025-02-08T16:52:26",
         "updatedAt": "2025-02-08T16:52:33",
@@ -33,11 +43,40 @@
     "httpRequests": [
       {
         "model": "http_request",
+        "id": "rq_smvpfnCBBP",
+        "createdAt": "2025-02-09T05:20:24",
+        "updatedAt": "2025-02-09T05:21:51",
+        "workspaceId": "wk_NLVaxAXEpZ",
+        "folderId": "fl_5w52vg16sl",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "headers": [
+          {
+            "enabled": true,
+            "name": "method",
+            "value": ""
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": ""
+          }
+        ],
+        "method": "FAKE",
+        "name": "Request with invalid HTTP method",
+        "sortPriority": 999.9999,
+        "url": "https://self-hosted.commercify.store.ddev.site/",
+        "urlParameters": []
+      },
+      {
+        "model": "http_request",
         "id": "rq_ZXF8Kyix74",
         "createdAt": "2025-02-08T16:51:08",
-        "updatedAt": "2025-02-08T16:53:03",
+        "updatedAt": "2025-02-08T20:03:29",
         "workspaceId": "wk_NLVaxAXEpZ",
-        "folderId": "fl_9xtoIIFLK2",
+        "folderId": "fl_5w52vg16sl",
         "authentication": {},
         "authenticationType": null,
         "body": {},
@@ -45,7 +84,7 @@
         "headers": [],
         "method": "PUT",
         "name": "Request with unimplemented PUT method",
-        "sortPriority": 0.0,
+        "sortPriority": 1000.0,
         "url": "https://self-hosted.commercify.store.ddev.site/",
         "urlParameters": []
       },
@@ -53,9 +92,9 @@
         "model": "http_request",
         "id": "rq_1QeyvSthvl",
         "createdAt": "2025-02-07T00:34:00",
-        "updatedAt": "2025-02-08T16:53:03",
+        "updatedAt": "2025-02-08T20:03:29",
         "workspaceId": "wk_NLVaxAXEpZ",
-        "folderId": "fl_9xtoIIFLK2",
+        "folderId": "fl_5w52vg16sl",
         "authentication": {},
         "authenticationType": null,
         "body": {},
@@ -74,7 +113,7 @@
         ],
         "method": "GET",
         "name": "Request with bad user agent",
-        "sortPriority": 1000.0,
+        "sortPriority": 0.0,
         "url": "https://self-hosted.commercify.store.ddev.site/",
         "urlParameters": []
       }

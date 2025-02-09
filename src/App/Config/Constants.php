@@ -28,6 +28,8 @@ class Constants
     
     public const THEME_CONFIG_FILE_PATH = __DIR__ . '/../../../templates/themes/themes.yaml';
 
+    public const ALLOWED_HTTP_METHODS = ['get', 'post', 'put', 'delete', 'patch', 'options', 'head'];
+
     public const HTTP_ERRORS = [
         400 => ["code" => 400, "message" => "Bad Request"],
         401 => ["code" => 401, "message" => "Unauthorized"],
