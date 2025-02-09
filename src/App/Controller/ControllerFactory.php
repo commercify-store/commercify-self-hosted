@@ -20,26 +20,49 @@
 
 namespace App\Controller;
 
+use App\Config\Constants;
+use App\Exceptions\HttpException;
 use App\Modules\Renderer\Renderer;
 use App\Modules\Themes\ThemeManager;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use App\Controller\AbstractController;
-use App\Controller\StaticPageController;
 
 class ControllerFactory
 {
-    public function create(
+    private Renderer $renderer;
+
+    private Psr17Factory $psr17Factory;
+
+    private ThemeManager $themeManager;
+
+    public function __construct(
         Renderer $renderer,
         Psr17Factory $psr17Factory,
         ThemeManager $themeManager
-    ): AbstractController {
-        // todo Implement proper controller creation here according to routes etc.
-        $controller = new StaticPageController(
-            $renderer,
-            $psr17Factory,
-            $themeManager->getActiveTheme()
-        );
+    ) {
+        $this->renderer = $renderer;
+        $this->psr17Factory = $psr17Factory;
+        $this->themeManager = $themeManager;
+    }
 
-        return $controller;
+    public function create(string $controllerName): AbstractController {
+        $controllers = [
+            // todo Load this list from a YAML file (related to routes)
+            'static' => StaticPageController::class,
+        ];
+
+        if (!isset($controllers[$controllerName])) {
+            throw new HttpException(
+                Constants::HTTP_ERRORS[404]['code'],
+                Constants::HTTP_ERRORS[404]['message']
+            );
+        }
+
+        $controllerClass = $controllers[$controllerName];
+
+        return new $controllerClass(
+            $this->renderer,
+            $this->psr17Factory,
+            $this->themeManager->getActiveTheme()
+        );
     }
 }

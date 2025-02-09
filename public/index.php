@@ -47,23 +47,23 @@ $requestCreator = new ServerRequestCreator(
     $psr17Factory
 );
 $request = $requestCreator->fromGlobals();
-$controllerFactory = new ControllerFactory();
-$renderer = new Renderer(
-    Constants::TEMPLATES_PATH,
-    Constants::TEMPLATES_CACHE_PATH
+$controllerFactory = new ControllerFactory(
+    new Renderer(
+        Constants::TEMPLATES_PATH,
+        Constants::TEMPLATES_CACHE_PATH
+    ),
+    $psr17Factory,
+    new ThemeManager(
+        Yaml::parseFile(Constants::THEME_CONFIG_FILE_PATH)
+    )
 );
 $badUserAgentBlocker = new BadUserAgentBlocker();
-$themeManager = new ThemeManager(
-    Yaml::parseFile(Constants::THEME_CONFIG_FILE_PATH)
-);
 
 $kernel = new Kernel(
     $psr17Factory,
     $request,
     $controllerFactory,
-    $renderer,
-    $badUserAgentBlocker,
-    $themeManager
+    $badUserAgentBlocker
 );
 
 $response = $kernel->handle();

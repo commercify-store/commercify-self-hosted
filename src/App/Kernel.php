@@ -21,9 +21,8 @@
 namespace App;
 
 use App\Config\Constants;
+use InvalidArgumentException;
 use App\Exceptions\HttpException;
-use App\Modules\Renderer\Renderer;
-use App\Modules\Themes\ThemeManager;
 use App\Controller\ControllerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
@@ -36,39 +35,27 @@ class Kernel
 
     private ServerRequestInterface $request;
 
-    private Renderer $renderer;
-
     private Psr17Factory $psr17Factory;
 
     private BadUserAgentBlocker $badUserAgentBlocker;
-
-    private ThemeManager $themeManager;
 
     public function __construct(
         Psr17Factory $psr17Factory,
         ServerRequestInterface $request,
         ControllerFactory $controllerFactory,
-        Renderer $renderer,
-        BadUserAgentBlocker $badUserAgentBlocker,
-        ThemeManager $themeManager
+        BadUserAgentBlocker $badUserAgentBlocker
     ) {
         $this->psr17Factory = $psr17Factory;
         $this->request = $request;
         $this->controllerFactory = $controllerFactory;
-        $this->renderer = $renderer;
         $this->badUserAgentBlocker = $badUserAgentBlocker;
-        $this->themeManager = $themeManager;
     }
 
     public function handle(): ResponseInterface {
         try {
             $this->checkForRequestErrors();
 
-            $controller = $this->controllerFactory->create(
-                $this->renderer,
-                $this->psr17Factory,
-                $this->themeManager
-            );
+            $controller = $this->controllerFactory->create('static');
 
             // todo Check if a made up HTTP method can be passed which will result in an error that does not
             // get caught
@@ -95,8 +82,6 @@ class Kernel
         // todo Instead of just outputting the error message, render an error page with the message
         return $this->psr17Factory
             ->createResponse($code)
-            ->withBody(
-                $this->psr17Factory->createStream($message)
-            );
+            ->withBody($this->psr17Factory->createStream($message));
     }
 }

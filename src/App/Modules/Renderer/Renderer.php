@@ -30,8 +30,7 @@ class Renderer
 {
     private Environment $twig;
 
-    public function __construct(string $templatesPath, string $templatesCachePath)
-    {
+    public function __construct(string $templatesPath, string $templatesCachePath) {
         $loader = new FilesystemLoader($templatesPath);
 
         $this->twig = new Environment($loader, [
@@ -41,8 +40,7 @@ class Renderer
         ]);
     }
 
-    public function render(string $template, array $context = []): string
-    {
+    public function render(string $template, array $context = []): string {
         try {
             return $this->twig->render($template, $context);
         } catch (LoaderError | RuntimeError | SyntaxError $e) {
