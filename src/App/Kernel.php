@@ -53,20 +53,10 @@ class Kernel
 
     public function handle(): ResponseInterface {
         try {
-            $this->checkForRequestErrors();
-
-            $controller = $this->controllerFactory->create('static');
             $httpRequestMethod = strtolower($this->request->getMethod());
-
-            if (
-                !in_array($httpRequestMethod, Constants::ALLOWED_HTTP_METHODS, true)
-                || !method_exists($controller, $httpRequestMethod)
-            ) {
-                throw new HttpException(
-                    Constants::HTTP_ERRORS[405]['code'],
-                    Constants::HTTP_ERRORS[405]['message']
-                );
-            }
+            $this->checkForRequestErrors($httpRequestMethod);
+            // todo Pass the correct controllerName based on routing
+            $controller = $this->controllerFactory->create('static');
 
             return $controller->$httpRequestMethod();
         } catch (HttpException $e) {
@@ -75,12 +65,19 @@ class Kernel
         }
     }
 
-    private function checkForRequestErrors(): void {
+    private function checkForRequestErrors(string $httpRequestMethod): void {
         // todo Add other error cases here, grouped in if conditions for each error code
         if ($this->badUserAgentBlocker->isBadUserAgent()) {
             throw new HttpException(
                 Constants::HTTP_ERRORS[403]['code'],
                 Constants::HTTP_ERRORS[403]['message']
+            );
+        }
+
+        if (!in_array($httpRequestMethod, Constants::ALLOWED_HTTP_METHODS, true)) {
+            throw new HttpException(
+                Constants::HTTP_ERRORS[405]['code'],
+                Constants::HTTP_ERRORS[405]['message']
             );
         }
     }
