@@ -20,12 +20,14 @@
 
 namespace App\Modules\Security\BadUserAgentBlocker;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 class BadUserAgentBlocker
 {
-    private $userAgent;
+    private ServerRequestInterface $request;
 
-    public function __construct() {
-        $this->userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    public function __construct(ServerRequestInterface $request) {
+        $this->request = $request;
     }
 
     public function isBadUserAgent(): bool {
@@ -39,8 +41,8 @@ class BadUserAgentBlocker
             $pattern = '~(' . implode('|', $escapedAgents) . ')~i';
         }
 
-        if (preg_match($pattern, $this->userAgent)) {
-            error_log("Blocked bad user agent: $this->userAgent");
+        $userAgent = $this->request->getHeaderLine('User-Agent');
+        if (preg_match($pattern, $userAgent)) {
             return true;
         }
 

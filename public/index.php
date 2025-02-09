@@ -57,7 +57,7 @@ $controllerFactory = new ControllerFactory(
         Yaml::parseFile(Constants::THEME_CONFIG_FILE_PATH)
     )
 );
-$badUserAgentBlocker = new BadUserAgentBlocker();
+$badUserAgentBlocker = new BadUserAgentBlocker($request);
 
 $kernel = new Kernel(
     $psr17Factory,
