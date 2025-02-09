@@ -19,45 +19,59 @@
 */
 
 use PHPUnit\Framework\TestCase;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7Server\ServerRequestCreator;
 use App\Modules\Security\BadUserAgentBlocker\BadUserAgents;
 use App\Modules\Security\BadUserAgentBlocker\BadUserAgentBlocker;
 
 class BadUserAgentBlockerTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        // Ensure static variable is reset by reloading the class
-        static::resetStaticCache();
+    private Psr17Factory $psr17Factory;
+    private ServerRequestCreator $requestCreator;
+
+    protected function setUp(): void {
+        $this->psr17Factory = new Psr17Factory();
+        $this->requestCreator = new ServerRequestCreator(
+            $this->psr17Factory,
+            $this->psr17Factory,
+            $this->psr17Factory,
+            $this->psr17Factory
+        );
+
+        // Reset static cache before each test
+        $this->resetRequestCheck();
     }
 
-    private static function resetStaticCache(): void
-    {
-        // Calling isBadUserAgent() with an empty array forces reinitialization of $pattern
-        $emptyBlocker = new BadUserAgentBlocker();
+    private function resetRequestCheck(): void {
+        $request = $this->requestCreator->fromGlobals();
+        $emptyBlocker = new BadUserAgentBlocker($request);
         $emptyBlocker->isBadUserAgent();
     }
 
-    public function testDetectsBadUserAgent(): void
-    {
-        $_SERVER['HTTP_USER_AGENT'] = BadUserAgents::BAD_USER_AGENTS[0];
+    public function testDetectsBadUserAgent(): void {
+        $request = $this->requestCreator
+            ->fromGlobals()
+            ->withHeader('User-Agent', BadUserAgents::BAD_USER_AGENTS[0]);
 
-        $blocker = new BadUserAgentBlocker();
+        $blocker = new BadUserAgentBlocker($request);
         $this->assertTrue($blocker->isBadUserAgent(), 'Failed to detect bad user agent');
     }
 
-    public function testAllowsGoodUserAgent(): void
-    {
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)';
+    public function testAllowsGoodUserAgent(): void {
+        $request = $this->requestCreator
+            ->fromGlobals()
+            ->withHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
 
-        $blocker = new BadUserAgentBlocker();
+        $blocker = new BadUserAgentBlocker($request);
         $this->assertFalse($blocker->isBadUserAgent(), 'Incorrectly blocked a good user agent');
     }
 
-    public function testPartialMatchDoesNotBlock(): void
-    {
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)';
+    public function testBlocksBadUserAgentWithPartialMatch(): void {
+        $request = $this->requestCreator
+            ->fromGlobals()
+            ->withHeader('User-Agent', 'Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)');
 
-        $blocker = new BadUserAgentBlocker();
-        $this->assertTrue($blocker->isBadUserAgent(), 'Failed to block a bad user agent inside a string');
+        $blocker = new BadUserAgentBlocker($request);
+        $this->assertTrue($blocker->isBadUserAgent(), 'Failed to block a known bad user agent inside a string');
     }
 }
