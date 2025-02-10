@@ -67,4 +67,6 @@ $kernel = new Kernel(
 );
 
 $response = $kernel->handle();
+http_response_code($response->getStatusCode());
+
 echo $response->getBody();

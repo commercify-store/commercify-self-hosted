@@ -56,12 +56,13 @@ class Kernel
             
             // todo Pass the correct controllerName based on routing
             $controller = $this->controllerFactory->create('static');
-
             $httpRequestMethod = strtolower($this->request->getMethod());
+            
             return $controller->$httpRequestMethod();
         } catch (HttpException $e) {
-            http_response_code($e->getStatusCode());
-            return $this->createErrorResponse($e->getStatusCode(), $e->getMessage());
+            return $this->psr17Factory
+                ->createResponse($e->getStatusCode())
+                ->withBody($this->psr17Factory->createStream($e->getMessage()));
         }
     }
 
@@ -86,12 +87,5 @@ class Kernel
                 Constants::HTTP_ERRORS[405]['message']
             );
         }
-    }
-
-    private function createErrorResponse(int $code, string $message): ResponseInterface {
-        // todo Instead of just outputting the error message, render an error page with the message
-        return $this->psr17Factory
-            ->createResponse($code)
-            ->withBody($this->psr17Factory->createStream($message));
     }
 }

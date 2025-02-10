@@ -31,8 +31,7 @@ abstract class AbstractController
 {
     public function get(): ResponseInterface {
         $psr17Factory = new Psr17Factory();
-        http_response_code(Constants::HTTP_ERRORS[405]['code']);
-
+        
         return $psr17Factory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
@@ -42,8 +41,7 @@ abstract class AbstractController
 
     public function post(): ResponseInterface {
         $psr17Factory = new Psr17Factory();
-        http_response_code(Constants::HTTP_ERRORS[405]['code']);
-
+        
         return $psr17Factory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
@@ -53,8 +51,7 @@ abstract class AbstractController
 
     public function put(): ResponseInterface {
         $psr17Factory = new Psr17Factory();
-        http_response_code(Constants::HTTP_ERRORS[405]['code']);
-
+        
         return $psr17Factory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
@@ -64,8 +61,7 @@ abstract class AbstractController
 
     public function delete(): ResponseInterface {
         $psr17Factory = new Psr17Factory();
-        http_response_code(Constants::HTTP_ERRORS[405]['code']);
-
+        
         return $psr17Factory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
@@ -75,8 +71,7 @@ abstract class AbstractController
 
     public function patch(): ResponseInterface {
         $psr17Factory = new Psr17Factory();
-        http_response_code(Constants::HTTP_ERRORS[405]['code']);
-
+        
         return $psr17Factory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
@@ -86,8 +81,7 @@ abstract class AbstractController
 
     public function options(): ResponseInterface {
         $psr17Factory = new Psr17Factory();
-        http_response_code(Constants::HTTP_ERRORS[405]['code']);
-
+        
         return $psr17Factory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
@@ -97,8 +91,7 @@ abstract class AbstractController
 
     public function query(): ResponseInterface {
         $psr17Factory = new Psr17Factory();
-        http_response_code(Constants::HTTP_ERRORS[405]['code']);
-
+        
         return $psr17Factory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
@@ -108,8 +101,7 @@ abstract class AbstractController
 
     public function head(): ResponseInterface {
         $psr17Factory = new Psr17Factory();
-        http_response_code(Constants::HTTP_ERRORS[405]['code']);
-
+        
         return $psr17Factory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
