@@ -1,3 +1,5 @@
+![Commercify Self Hosted](misc/readme-assets/combination-primary-on_transparent.svg)
+
 # Commercify Self Hosted
 
 Commercify Self Hosted (CSH) is a PHP based framework to quickly develop online stores. To develop a Commercify store, you need to run CSH locally, and deploy it when you are done.
@@ -18,7 +20,7 @@ To install and configure DDEV, please visit [the DDEV website](https://ddev.com/
 - **PHP**: 8.2.20
 - **MariaDB**: 10.11
 
---
+---
 
 ### Follow these steps to configure CSH locally on your machine
 
@@ -29,7 +31,7 @@ To install and configure DDEV, please visit [the DDEV website](https://ddev.com/
 - Open the file `.ddev/config.yaml` and check the versions for PHP and MariaDB. Make sure they are the same as the versions listed above in the `Versions used in the current development environment` section.
 - Start the project: `ddev start`.
 
---
+---
 
 The output of `ddev start` should be similar to this:
 
