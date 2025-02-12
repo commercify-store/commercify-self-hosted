@@ -36,13 +36,7 @@ class RequestValidator
             );
         }
 
-        if (
-            !in_array(
-                strtolower($request->getMethod()),
-                Constants::ALLOWED_HTTP_METHODS,
-                true
-            )
-        ) {
+        if ($this->isInvalidHttpMethod($request)) {
             throw new HttpException(
                 Constants::HTTP_ERRORS[405]['code'],
                 Constants::HTTP_ERRORS[405]['message']
@@ -67,5 +61,13 @@ class RequestValidator
         }
 
         return false;
+    }
+
+    private function isInvalidHttpMethod(ServerRequestInterface $request): bool {
+        return !in_array(
+            strtolower($request->getMethod()),
+            Constants::ALLOWED_HTTP_METHODS,
+            true
+        );
     }
 }
