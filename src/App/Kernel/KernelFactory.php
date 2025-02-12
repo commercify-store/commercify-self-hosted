@@ -35,7 +35,7 @@ class KernelFactory
     public function create(): Kernel {
         $responseFactory = $this->createResponseFactory();
         $request = $this->createRequest($responseFactory);
-        $requestValidator = $this->createRequestValidator($request);
+        $requestValidator = $this->createRequestValidator();
         $themeManager = $this->createThemeManager();
         $renderer = $this->createRenderer();
         $controllerFactory = $this->createControllerFactory(
@@ -66,8 +66,8 @@ class KernelFactory
         ))->fromGlobals();
     }
 
-    private function createRequestValidator(ServerRequestInterface $request): RequestValidator {
-        return new RequestValidator($request);
+    private function createRequestValidator(): RequestValidator {
+        return new RequestValidator();
     }
 
     private function createThemeManager(): ThemeManager {

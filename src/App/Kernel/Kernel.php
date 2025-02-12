@@ -51,7 +51,7 @@ class Kernel
 
     public function handle(): ResponseInterface {
         try {
-            $this->requestValidator->validate();
+            $this->requestValidator->validate($this->request);
 
             // TODO Pass the correct controllerName based on routing
             $controller = $this->controllerFactory->create('static');

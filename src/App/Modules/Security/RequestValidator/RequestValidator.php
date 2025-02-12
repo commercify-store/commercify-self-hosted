@@ -27,15 +27,9 @@ use App\Modules\Security\RequestValidator\BadUserAgents;
 
 class RequestValidator
 {
-    private ServerRequestInterface $request;
-
-    public function __construct(ServerRequestInterface $request) {
-        $this->request = $request;
-    }
-
-    public function validate(): void {
+    public function validate(ServerRequestInterface $request): void {
         // TODO Add other error cases here, grouped in if conditions for each error code
-        if ($this->isBadUserAgent()) {
+        if ($this->isBadUserAgent($request)) {
             throw new HttpException(
                 Constants::HTTP_ERRORS[403]['code'],
                 Constants::HTTP_ERRORS[403]['message']
@@ -44,7 +38,7 @@ class RequestValidator
 
         if (
             !in_array(
-                strtolower($this->request->getMethod()),
+                strtolower($request->getMethod()),
                 Constants::ALLOWED_HTTP_METHODS,
                 true
             )
@@ -56,7 +50,7 @@ class RequestValidator
         }
     }
 
-    private function isBadUserAgent(): bool {
+    private function isBadUserAgent(ServerRequestInterface $request): bool {
         static $pattern = null;
 
         if ($pattern === null) {
@@ -67,7 +61,7 @@ class RequestValidator
             $pattern = '~(' . implode('|', $escapedAgents) . ')~i';
         }
 
-        $userAgent = $this->request->getHeaderLine('User-Agent');
+        $userAgent = $request->getHeaderLine('User-Agent');
         if (preg_match($pattern, $userAgent)) {
             return true;
         }
