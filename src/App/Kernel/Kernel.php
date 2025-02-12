@@ -56,8 +56,10 @@ class Kernel
             // todo Pass the correct controllerName based on routing
             $controller = $this->controllerFactory->create('static');
             $httpRequestMethod = strtolower($this->request->getMethod());
+            
+            $response = $controller->$httpRequestMethod();
 
-            return $controller->$httpRequestMethod();
+            return $response;
         } catch (HttpException $e) {
             return $this->responseFactory
                 ->createResponse($e->getStatusCode())
