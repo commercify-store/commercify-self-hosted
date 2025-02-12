@@ -25,7 +25,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 
-// todo Clean up repetitive code in this file
+// TODO Clean up repetitive code in this file
 
 abstract class AbstractController
 {

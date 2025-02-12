@@ -51,7 +51,7 @@ class ControllerFactory
 
     public function create(string $controllerName): ControllerInterface {
         $controllers = [
-            // todo Load this list from a YAML file (related to routes)
+            // TODO Load this list from a YAML file (related to routes)
             'static' => StaticPageController::class,
         ];
 

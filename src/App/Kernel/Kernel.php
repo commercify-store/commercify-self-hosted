@@ -53,7 +53,7 @@ class Kernel
         try {
             $this->requestValidator->validate();
 
-            // todo Pass the correct controllerName based on routing
+            // TODO Pass the correct controllerName based on routing
             $controller = $this->controllerFactory->create('static');
             $httpRequestMethod = strtolower($this->request->getMethod());
             

@@ -34,7 +34,7 @@ class RequestValidator
     }
 
     public function validate(): void {
-        // todo Add other error cases here, grouped in if conditions for each error code
+        // TODO Add other error cases here, grouped in if conditions for each error code
         if ($this->isBadUserAgent()) {
             throw new HttpException(
                 Constants::HTTP_ERRORS[403]['code'],
