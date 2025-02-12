@@ -27,10 +27,10 @@ use App\Kernel\KernelFactory;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-$kernelFactory = new KernelFactory();
-$kernel = $kernelFactory->create();
-
+$kernel = (new KernelFactory())->create();
 $response = $kernel->handle();
 http_response_code($response->getStatusCode());
 
+// todo Make sure to execute the appropiate action based on the response. For redirects we might not want to
+// echo anything for example.
 echo $response->getBody();
