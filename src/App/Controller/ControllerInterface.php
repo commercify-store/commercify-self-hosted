@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
     Commercify Self Hosted - An e-commerce framework

@@ -32,40 +32,40 @@ use App\Modules\Security\RequestValidator\RequestValidator;
 
 class KernelFactory
 {
-    private Psr17Factory $responseFactory;
-
-    public function __construct(Psr17Factory $responseFactory) {
-        $this->responseFactory = $responseFactory;
-    }
-
     public function create(): Kernel {
-        $request = $this->createRequest();
+        $responseFactory = new Psr17Factory();
+        $request = $this->createRequest($responseFactory);
+        $requestValidator = $this->createRequestValidator($request);
         $themeManager = $this->createThemeManager();
         $renderer = $this->createRenderer();
         $controllerFactory = $this->createControllerFactory(
             $request,
+            $responseFactory,
             $themeManager,
             $renderer
         );
-        $requestValidator = $this->createRequestValidator($request);
 
         return new Kernel(
-            $this->responseFactory,
+            $responseFactory,
             $request,
             $controllerFactory,
             $requestValidator
         );
     }
 
-    private function createRequest(): ServerRequestInterface {
+    private function createRequest(Psr17Factory $responseFactory): ServerRequestInterface {
         $requestCreator = new ServerRequestCreator(
-            $this->responseFactory,
-            $this->responseFactory,
-            $this->responseFactory,
-            $this->responseFactory
+            $responseFactory,
+            $responseFactory,
+            $responseFactory,
+            $responseFactory
         );
 
         return $requestCreator->fromGlobals();
+    }
+
+    private function createRequestValidator(ServerRequestInterface $request): RequestValidator {
+        return new RequestValidator($request);
     }
 
     private function createThemeManager(): ThemeManager {
@@ -83,18 +83,15 @@ class KernelFactory
 
     private function createControllerFactory(
         ServerRequestInterface $request,
+        Psr17Factory $responseFactory,
         ThemeManager $themeManager,
         Renderer $renderer
     ): ControllerFactory {
         return new ControllerFactory(
             $request,
-            $this->responseFactory,
+            $responseFactory,
             $themeManager,
             $renderer
         );
-    }
-
-    private function createRequestValidator(ServerRequestInterface $request): RequestValidator {
-        return new RequestValidator($request);
     }
 }

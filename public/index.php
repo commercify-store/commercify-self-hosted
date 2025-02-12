@@ -24,11 +24,10 @@
  */
 
 use App\Kernel\KernelFactory;
-use Nyholm\Psr7\Factory\Psr17Factory;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-$kernelFactory = new KernelFactory(new Psr17Factory());
+$kernelFactory = new KernelFactory();
 $kernel = $kernelFactory->create();
 
 $response = $kernel->handle();
