@@ -33,11 +33,11 @@ class RequestValidatorTest extends TestCase
             'GET'
         );
 
-        $blocker = new RequestValidator();
+        $requestValidator = new RequestValidator();
 
         $this->expectNotToPerformAssertions();
 
-        $blocker->validate($request);
+        $requestValidator->validate($request);
     }
 
     public function testBlocksBadUserAgentWithExactMatch(): void {
@@ -46,13 +46,13 @@ class RequestValidatorTest extends TestCase
             'GET'
         );
 
-        $blocker = new RequestValidator();
+        $requestValidator = new RequestValidator();
 
         $this->expectException(HttpException::class);
         $this->expectExceptionCode(Constants::HTTP_ERRORS[403]['code']);
         $this->expectExceptionMessage(Constants::HTTP_ERRORS[403]['message']);
 
-        $blocker->validate($request);
+        $requestValidator->validate($request);
     }
 
     public function testBlocksBadUserAgentWithPartialMatch(): void {
@@ -61,13 +61,13 @@ class RequestValidatorTest extends TestCase
             'GET'
         );
 
-        $blocker = new RequestValidator();
+        $requestValidator = new RequestValidator();
 
         $this->expectException(HttpException::class);
         $this->expectExceptionCode(Constants::HTTP_ERRORS[403]['code']);
         $this->expectExceptionMessage(Constants::HTTP_ERRORS[403]['message']);
 
-        $blocker->validate($request);
+        $requestValidator->validate($request);
     }
 
     public function testBlocksRequestWithInvalidMethod(): void {
@@ -76,13 +76,13 @@ class RequestValidatorTest extends TestCase
             'FAKE'
         );
 
-        $blocker = new RequestValidator();
+        $requestValidator = new RequestValidator();
 
         $this->expectException(HttpException::class);
         $this->expectExceptionCode(Constants::HTTP_ERRORS[405]['code']);
         $this->expectExceptionMessage(Constants::HTTP_ERRORS[405]['message']);
 
-        $blocker->validate($request);
+        $requestValidator->validate($request);
     }
 
     public function testAllowsValidHttpMethod(): void {
@@ -91,11 +91,11 @@ class RequestValidatorTest extends TestCase
             'GET'
         );
 
-        $blocker = new RequestValidator();
+        $requestValidator = new RequestValidator();
 
         $this->expectNotToPerformAssertions();
 
-        $blocker->validate($request);
+        $requestValidator->validate($request);
     }
 
     private function createMockRequest(string $userAgent, string $method): ServerRequestInterface {
