@@ -34,17 +34,17 @@ class Kernel
 
     private ServerRequestInterface $request;
 
-    private Psr17Factory $psr17Factory;
+    private Psr17Factory $responseFactory;
 
     private BadUserAgentBlocker $badUserAgentBlocker;
 
     public function __construct(
-        Psr17Factory $psr17Factory,
+        Psr17Factory $responseFactory,
         ServerRequestInterface $request,
         ControllerFactory $controllerFactory,
         BadUserAgentBlocker $badUserAgentBlocker
     ) {
-        $this->psr17Factory = $psr17Factory;
+        $this->responseFactory = $responseFactory;
         $this->request = $request;
         $this->controllerFactory = $controllerFactory;
         $this->badUserAgentBlocker = $badUserAgentBlocker;
@@ -60,9 +60,9 @@ class Kernel
             
             return $controller->$httpRequestMethod();
         } catch (HttpException $e) {
-            return $this->psr17Factory
+            return $this->responseFactory
                 ->createResponse($e->getStatusCode())
-                ->withBody($this->psr17Factory->createStream($e->getMessage()));
+                ->withBody($this->responseFactory->createStream($e->getMessage()));
         }
     }
 

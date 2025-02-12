@@ -30,82 +30,82 @@ use Psr\Http\Message\ResponseFactoryInterface;
 abstract class AbstractController
 {
     public function get(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
+        $responseFactory = new Psr17Factory();
         
-        return $psr17Factory
+        return $responseFactory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
-                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+                $responseFactory->createStream(Constants::HTTP_ERRORS[405]['message'])
             );
     }
 
     public function post(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
+        $responseFactory = new Psr17Factory();
         
-        return $psr17Factory
+        return $responseFactory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
-                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+                $responseFactory->createStream(Constants::HTTP_ERRORS[405]['message'])
             );
     }
 
     public function put(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
+        $responseFactory = new Psr17Factory();
         
-        return $psr17Factory
+        return $responseFactory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
-                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+                $responseFactory->createStream(Constants::HTTP_ERRORS[405]['message'])
             );
     }
 
     public function delete(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
+        $responseFactory = new Psr17Factory();
         
-        return $psr17Factory
+        return $responseFactory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
-                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+                $responseFactory->createStream(Constants::HTTP_ERRORS[405]['message'])
             );
     }
 
     public function patch(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
+        $responseFactory = new Psr17Factory();
         
-        return $psr17Factory
+        return $responseFactory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
-                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+                $responseFactory->createStream(Constants::HTTP_ERRORS[405]['message'])
             );
     }
 
     public function options(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
+        $responseFactory = new Psr17Factory();
         
-        return $psr17Factory
+        return $responseFactory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
-                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+                $responseFactory->createStream(Constants::HTTP_ERRORS[405]['message'])
             );
     }
 
     public function query(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
+        $responseFactory = new Psr17Factory();
         
-        return $psr17Factory
+        return $responseFactory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
-                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+                $responseFactory->createStream(Constants::HTTP_ERRORS[405]['message'])
             );
     }
 
     public function head(): ResponseInterface {
-        $psr17Factory = new Psr17Factory();
+        $responseFactory = new Psr17Factory();
         
-        return $psr17Factory
+        return $responseFactory
             ->createResponse(Constants::HTTP_ERRORS[405]['code'])
             ->withBody(
-                $psr17Factory->createStream(Constants::HTTP_ERRORS[405]['message'])
+                $responseFactory->createStream(Constants::HTTP_ERRORS[405]['message'])
             );
     }
 }

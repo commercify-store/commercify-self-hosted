@@ -26,16 +26,16 @@ use App\Modules\Security\BadUserAgentBlocker\BadUserAgentBlocker;
 
 class BadUserAgentBlockerTest extends TestCase
 {
-    private Psr17Factory $psr17Factory;
+    private Psr17Factory $responseFactory;
     private ServerRequestCreator $requestCreator;
 
     protected function setUp(): void {
-        $this->psr17Factory = new Psr17Factory();
+        $this->responseFactory = new Psr17Factory();
         $this->requestCreator = new ServerRequestCreator(
-            $this->psr17Factory,
-            $this->psr17Factory,
-            $this->psr17Factory,
-            $this->psr17Factory
+            $this->responseFactory,
+            $this->responseFactory,
+            $this->responseFactory,
+            $this->responseFactory
         );
 
         // Reset static cache before each test

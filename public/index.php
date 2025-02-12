@@ -48,13 +48,14 @@ $requestCreator = new ServerRequestCreator(
 );
 $request = $requestCreator->fromGlobals();
 $controllerFactory = new ControllerFactory(
-    new Renderer(
-        Constants::TEMPLATES_PATH,
-        Constants::TEMPLATES_CACHE_PATH
-    ),
+    $request,
     $psr17Factory,
     new ThemeManager(
         Yaml::parseFile(Constants::THEME_CONFIG_FILE_PATH)
+    ),
+    new Renderer(
+        Constants::TEMPLATES_PATH,
+        Constants::TEMPLATES_CACHE_PATH
     )
 );
 $badUserAgentBlocker = new BadUserAgentBlocker($request);

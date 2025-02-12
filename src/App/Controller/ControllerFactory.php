@@ -25,34 +25,36 @@ use App\Exceptions\HttpException;
 use App\Modules\Renderer\Renderer;
 use App\Modules\Themes\ThemeManager;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Psr\Http\Message\ServerRequestInterface;
 
 class ControllerFactory
 {
-    private Renderer $renderer;
-
-    private Psr17Factory $psr17Factory;
+    private ServerRequestInterface $request;
+    
+    private Psr17Factory $responseFactory;
 
     private ThemeManager $themeManager;
 
+    private Renderer $renderer;
+
     public function __construct(
-        Renderer $renderer,
-        Psr17Factory $psr17Factory,
-        ThemeManager $themeManager
+        ServerRequestInterface $request,
+        Psr17Factory $responseFactory,
+        ThemeManager $themeManager,
+        Renderer $renderer
     ) {
-        $this->renderer = $renderer;
-        $this->psr17Factory = $psr17Factory;
+        $this->request = $request;
+        $this->responseFactory = $responseFactory;
         $this->themeManager = $themeManager;
+        $this->renderer = $renderer;
     }
 
-    public function create(string $controllerName): AbstractController {
+    public function create(string $controllerName): ControllerInterface {
         $controllers = [
             // todo Load this list from a YAML file (related to routes)
             'static' => StaticPageController::class,
         ];
 
-        // todo Check if this fault is caught early on in Kernel, so we can skip this check here. Or, we can
-        // throw a different exception. The route might actually exist, but for whatever reason the wrong name
-        // can be passed down here. The error should reflect that.
         if (!isset($controllers[$controllerName])) {
             throw new HttpException(
                 Constants::HTTP_ERRORS[404]['code'],
@@ -60,12 +62,14 @@ class ControllerFactory
             );
         }
 
+        /** @var class-string<ControllerInterface> $controllerClass */
         $controllerClass = $controllers[$controllerName];
 
         return new $controllerClass(
-            $this->renderer,
-            $this->psr17Factory,
-            $this->themeManager->getActiveTheme()
+            $this->request,
+            $this->responseFactory,
+            $this->themeManager->getActiveTheme(),
+            $this->renderer
         );
     }
 }
