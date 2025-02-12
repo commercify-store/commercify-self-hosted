@@ -22,29 +22,16 @@ use App\Config\Constants;
 use PHPUnit\Framework\TestCase;
 use App\Exceptions\HttpException;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use Nyholm\Psr7Server\ServerRequestCreator;
 use App\Modules\Security\RequestValidator\RequestValidator;
+use Psr\Http\Message\ServerRequestInterface;
 
 class RequestValidatorTest extends TestCase
 {
-    private Psr17Factory $responseFactory;
-
-    private ServerRequestCreator $requestCreator;
-
-    protected function setUp(): void {
-        $this->responseFactory = new Psr17Factory();
-        $this->requestCreator = new ServerRequestCreator(
-            $this->responseFactory,
-            $this->responseFactory,
-            $this->responseFactory,
-            $this->responseFactory
-        );
-    }
-
     public function testAllowsGoodUserAgent(): void {
-        $request = $this->requestCreator
-            ->fromGlobals()
-            ->withHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
+        $request = $this->createMockRequest(
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+            'GET'
+        );
 
         $blocker = new RequestValidator($request);
 
@@ -54,9 +41,10 @@ class RequestValidatorTest extends TestCase
     }
 
     public function testBlocksBadUserAgentWithExactMatch(): void {
-        $request = $this->requestCreator
-            ->fromGlobals()
-            ->withHeader('User-Agent', 'AhrefsBot/7.0 (+http://ahrefs.com/robot/)');
+        $request = $this->createMockRequest(
+            'AhrefsBot/7.0 (+http://ahrefs.com/robot/)',
+            'GET'
+        );
 
         $blocker = new RequestValidator($request);
 
@@ -68,9 +56,10 @@ class RequestValidatorTest extends TestCase
     }
 
     public function testBlocksBadUserAgentWithPartialMatch(): void {
-        $request = $this->requestCreator
-            ->fromGlobals()
-            ->withHeader('User-Agent', 'Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)');
+        $request = $this->createMockRequest(
+            'Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)',
+            'GET'
+        );
 
         $blocker = new RequestValidator($request);
 
@@ -82,10 +71,10 @@ class RequestValidatorTest extends TestCase
     }
 
     public function testBlocksRequestWithInvalidMethod(): void {
-        $request = $this->requestCreator
-            ->fromGlobals()
-            ->withHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)')
-            ->withMethod('FAKE');
+        $request = $this->createMockRequest(
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+            'FAKE'
+        );
 
         $blocker = new RequestValidator($request);
 
@@ -97,15 +86,27 @@ class RequestValidatorTest extends TestCase
     }
 
     public function testAllowsValidHttpMethod(): void {
-        $request = $this->requestCreator
-            ->fromGlobals()
-            ->withHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)')
-            ->withMethod('GET');
+        $request = $this->createMockRequest(
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+            'GET'
+        );
 
         $blocker = new RequestValidator($request);
 
         $this->expectNotToPerformAssertions();
 
         $blocker->validate();
+    }
+
+    private function createMockRequest(string $userAgent, string $method): ServerRequestInterface {
+        $request = $this->createMock(ServerRequestInterface::class);
+
+        $request->method('getHeaderLine')
+            ->willReturn($userAgent);
+
+        $request->method('getMethod')
+            ->willReturn($method);
+
+        return $request;
     }
 }
