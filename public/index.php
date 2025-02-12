@@ -23,49 +23,13 @@
  * See the .htaccess file for how the traffic is directed here.
  */
 
-use App\Kernel;
-use App\Config\Constants;
-use Symfony\Component\Yaml\Yaml;
-use App\Modules\Renderer\Renderer;
-use App\Modules\Themes\ThemeManager;
-use App\Controller\ControllerFactory;
+use App\Kernel\KernelFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use Nyholm\Psr7Server\ServerRequestCreator;
-use App\Modules\Security\RequestValidator\RequestValidator;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-/**
- * We are instantiating the dependencies for Kernel here and injecting them later on below for testing 
- * purposes. Injecting dependencies from this level into Kernel makes the Kernel class more easily testable.
- */
-$psr17Factory = new Psr17Factory();
-$requestCreator = new ServerRequestCreator(
-    $psr17Factory,
-    $psr17Factory,
-    $psr17Factory,
-    $psr17Factory
-);
-$request = $requestCreator->fromGlobals();
-$controllerFactory = new ControllerFactory(
-    $request,
-    $psr17Factory,
-    new ThemeManager(
-        Yaml::parseFile(Constants::THEME_CONFIG_FILE_PATH)
-    ),
-    new Renderer(
-        Constants::TEMPLATES_PATH,
-        Constants::TEMPLATES_CACHE_PATH
-    )
-);
-$requestValidator = new RequestValidator($request);
-
-$kernel = new Kernel(
-    $psr17Factory,
-    $request,
-    $controllerFactory,
-    $requestValidator
-);
+$kernelFactory = new KernelFactory(new Psr17Factory());
+$kernel = $kernelFactory->create();
 
 $response = $kernel->handle();
 http_response_code($response->getStatusCode());
