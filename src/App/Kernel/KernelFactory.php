@@ -33,7 +33,7 @@ use App\Modules\Security\RequestValidator\RequestValidator;
 class KernelFactory
 {
     public function create(): Kernel {
-        $responseFactory = new Psr17Factory();
+        $responseFactory = $this->createResponseFactory();
         $request = $this->createRequest($responseFactory);
         $requestValidator = $this->createRequestValidator($request);
         $themeManager = $this->createThemeManager();
@@ -53,15 +53,17 @@ class KernelFactory
         );
     }
 
+    private function createResponseFactory(): Psr17Factory {
+        return new Psr17Factory();
+    }
+
     private function createRequest(Psr17Factory $responseFactory): ServerRequestInterface {
-        $requestCreator = new ServerRequestCreator(
+        return (new ServerRequestCreator(
             $responseFactory,
             $responseFactory,
             $responseFactory,
             $responseFactory
-        );
-
-        return $requestCreator->fromGlobals();
+        ))->fromGlobals();
     }
 
     private function createRequestValidator(ServerRequestInterface $request): RequestValidator {

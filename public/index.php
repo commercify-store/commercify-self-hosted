@@ -27,6 +27,7 @@ use App\Kernel\KernelFactory;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
+// todo Add some error handling here in case Kernel creation goes wrong
 $kernel = (new KernelFactory())->create();
 $response = $kernel->handle();
 http_response_code($response->getStatusCode());
