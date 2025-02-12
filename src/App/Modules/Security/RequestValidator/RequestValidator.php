@@ -5,12 +5,11 @@ namespace App\Modules\Security\RequestValidator;
 use App\Config\Constants;
 use App\Exceptions\HttpException;
 use Psr\Http\Message\ServerRequestInterface;
-use App\Modules\Security\BadUserAgentBlocker\BadUserAgents;
+use App\Modules\Security\RequestValidator\BadUserAgents;
 
 class RequestValidator
 {
     private ServerRequestInterface $request;
-
 
     public function __construct(ServerRequestInterface $request) {
         $this->request = $request;

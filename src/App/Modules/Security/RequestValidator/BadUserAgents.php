@@ -18,7 +18,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace App\Modules\Security\BadUserAgentBlocker;
+namespace App\Modules\Security\RequestValidator;
 
 class BadUserAgents
 {
