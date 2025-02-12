@@ -31,7 +31,7 @@ use App\Modules\Themes\ThemeManager;
 use App\Controller\ControllerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
-use App\Modules\Security\BadUserAgentBlocker\BadUserAgentBlocker;
+use App\Modules\Security\RequestValidator\RequestValidator;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
@@ -58,13 +58,13 @@ $controllerFactory = new ControllerFactory(
         Constants::TEMPLATES_CACHE_PATH
     )
 );
-$badUserAgentBlocker = new BadUserAgentBlocker($request);
+$requestValidator = new RequestValidator($request);
 
 $kernel = new Kernel(
     $psr17Factory,
     $request,
     $controllerFactory,
-    $badUserAgentBlocker
+    $requestValidator
 );
 
 $response = $kernel->handle();

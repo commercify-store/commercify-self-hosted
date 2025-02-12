@@ -25,7 +25,7 @@ class Constants
     public const TEMPLATES_PATH = __DIR__ . '/../../../templates';
 
     public const TEMPLATES_CACHE_PATH = __DIR__ . "/../../../templates/cache";
-    
+
     public const THEME_CONFIG_FILE_PATH = __DIR__ . '/../../../templates/themes/themes.yaml';
 
     public const ALLOWED_HTTP_METHODS = ['get', 'post', 'put', 'delete', 'patch', 'options', 'head'];

@@ -20,13 +20,12 @@
 
 namespace App;
 
-use App\Config\Constants;
 use App\Exceptions\HttpException;
 use App\Controller\ControllerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use App\Modules\Security\BadUserAgentBlocker\BadUserAgentBlocker;
+use App\Modules\Security\RequestValidator\RequestValidator;
 
 class Kernel
 {
@@ -36,56 +35,33 @@ class Kernel
 
     private Psr17Factory $responseFactory;
 
-    private BadUserAgentBlocker $badUserAgentBlocker;
+    private RequestValidator $requestValidator;
 
     public function __construct(
         Psr17Factory $responseFactory,
         ServerRequestInterface $request,
         ControllerFactory $controllerFactory,
-        BadUserAgentBlocker $badUserAgentBlocker
+        RequestValidator $requestValidator
     ) {
         $this->responseFactory = $responseFactory;
         $this->request = $request;
         $this->controllerFactory = $controllerFactory;
-        $this->badUserAgentBlocker = $badUserAgentBlocker;
+        $this->requestValidator = $requestValidator;
     }
 
     public function handle(): ResponseInterface {
         try {
-            $this->validateRequest();
-            
+            $this->requestValidator->validate();
+
             // todo Pass the correct controllerName based on routing
             $controller = $this->controllerFactory->create('static');
             $httpRequestMethod = strtolower($this->request->getMethod());
-            
+
             return $controller->$httpRequestMethod();
         } catch (HttpException $e) {
             return $this->responseFactory
                 ->createResponse($e->getStatusCode())
                 ->withBody($this->responseFactory->createStream($e->getMessage()));
-        }
-    }
-
-    private function validateRequest(): void {
-        // todo Add other error cases here, grouped in if conditions for each error code
-        if ($this->badUserAgentBlocker->isBadUserAgent()) {
-            throw new HttpException(
-                Constants::HTTP_ERRORS[403]['code'],
-                Constants::HTTP_ERRORS[403]['message']
-            );
-        }
-
-        if (
-            !in_array(
-                strtolower($this->request->getMethod()),
-                Constants::ALLOWED_HTTP_METHODS,
-                true
-            )
-        ) {
-            throw new HttpException(
-                Constants::HTTP_ERRORS[405]['code'],
-                Constants::HTTP_ERRORS[405]['message']
-            );
         }
     }
 }

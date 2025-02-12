@@ -30,7 +30,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class ControllerFactory
 {
     private ServerRequestInterface $request;
-    
+
     private Psr17Factory $responseFactory;
 
     private ThemeManager $themeManager;
