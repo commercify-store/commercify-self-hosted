@@ -64,7 +64,8 @@ To install and configure DDEV, please visit [the DDEV website](https://ddev.com/
 The output should be similar to:
 
 ```
-Successfully started self-hosted.commercify.store Project can be reached at https://self-hosted.commercify.store.ddev.site https://127.0.0.1:32769
+Successfully started self-hosted.commercify.store
+Project can be reached at https://self-hosted.commercify.store.ddev.site https://127.0.0.1:32769
 ```
 
 
