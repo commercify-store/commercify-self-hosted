@@ -2,73 +2,73 @@
 
 # Commercify Self Hosted
 
-Commercify Self Hosted (CSH) is a PHP based framework to quickly develop online stores. To develop a Commercify store, you need to run CSH locally, and deploy it when you are done.
+Commercify Self Hosted (CSH) is a PHP-based framework designed for quickly developing online stores. To develop a Commercify store, you need to run CSH locally and deploy it once you're done.
 
-## Getting started
+## Getting Started
 
-### Get a copy of the CSH framework
+### Obtaining the CSH Framework
 
-To run CSH locally, first you need to have a local copy of the framework on your machine. There are different ways to get a copy of CSH:
+To run CSH locally, you'll first need a copy of the framework. There are several methods to obtain it:
 
-#### 1. Download a release
+#### 1. Download a Release
 
-- Download a release on [Github's releases page](https://github.com/commercify-store/commercify-self-hosted/releases).
-- *Alternatively, download the latest release on [the Commercify website](https://self-hosted.commercify.com/download).*
+- Download the latest release from the [GitHub Releases Page](https://github.com/commercify-store/commercify-self-hosted/releases).
+- Alternatively, download the latest release from [the Commercify website](https://self-hosted.commercify.com/download).
 
-> **_NOTE:_**  All CSH releases already contain all necessarry dependencies. You do not need to run `composer install` or `npm install`.
-
----
-
-#### 2. Clone from Github
-
-- Clone this repo: `git clone https://github.com/commercify-store/commercify-self-hosted.git`.
-- Navigate to the CSH folder: `cd commercify-self-hosted`.
-- Make sure to make your own repo and update the remote: `git remote remove origin && git remote add origin <your-new-repo-url>`.
-- Run `composer install` and `npm install` to get all the dependencies.
+> **Note:** All CSH releases come with the necessary dependencies. There's no need to run `composer install` or `npm install`.
 
 ---
 
-#### 3. Use the Github template
+#### 2. Clone from GitHub
 
-- Click on the `Use this template` button on Github to create a fresh repo with CSH included.
-- Clone the fresh repo from the template: `git clone <location-of-your-repo>`.
-- Navigate to the CSH folder: `cd <your-repo-name>`.
-- Run `composer install` and `npm install` to get all the dependencies.
+- Clone the repository: `git clone https://github.com/commercify-store/commercify-self-hosted.git`.
+- Navigate to the CSH directory: `cd commercify-self-hosted`.
+- Set up your own repository by updating the remote: `git remote remove origin && git remote add origin <your-new-repo-url>`.
+- Run `composer install` and `npm install` to install all dependencies.
 
 ---
 
-### Run the framework
+#### 3. Use the GitHub Template
 
-To run CSH locally, you need a local development environment that runs Apache, PHP and MySQL/MariaDB/PostgreSQL. CSH can run on any basic LAMP stack, but it is adviced to use DDEV. Choose one of the options below to run CSH locally:
+- Click the **Use this template** button on GitHub to create a fresh repository with CSH included.
+- Clone the new repository: `git clone <location-of-your-repo>`.
+- Navigate to the CSH directory: `cd <your-repo-name>`.
+- Run `composer install` and `npm install` to install all dependencies.
 
-#### 1: Run CSH on a local LAMP stack
+---
 
-> **_NOTE:_**  The base URL of your LAMP stack or the name of the framework folder may differ from the example above. Check how to reach local projects on your LAMP stack to find the correct base URL.
+### Running the Framework
+
+To run CSH locally, you'll need a local development environment with Apache, PHP, and MySQL/MariaDB/PostgreSQL. CSH can run on any basic LAMP stack, but we recommend using DDEV. Choose one of the options below to run CSH locally:
+
+#### 1. Run CSH on a Local LAMP Stack
+
+> **Note:** The base URL of your LAMP stack or the name of the framework folder might differ. Check how to reach local projects on your LAMP stack to find the correct base URL.
 
 - Place the CSH framework folder in your web root directory.
 - Navigate to `http://localhost/commercify-self-hosted/setup`.
-- Follow the steps on the setup page to finish configuring your local CSH instance.
+- Follow the setup steps to complete the configuration of your local CSH instance.
 
 ---
 
-#### 2: Run on DDEV
+#### 2. Run on DDEV
 
-> **_NOTE:_**  Currently CSH uses **DDEV version 1.23.2** and **Docker version 27.4.1** To make sure your development environment works with CSH, you can use the same versions. But you can also use the newest versions of DDEV and Docker, as it should not have too much influence on CSH working or not.
+> **Note:** CSH currently uses **DDEV version 1.23.2** and **Docker version 27.4.1**. While you can use the latest versions of DDEV and Docker, the mentioned versions are recommended for optimal compatibility.
 
-To install and configure DDEV, please visit [the DDEV website](https://ddev.com/) and follow the instructions.
+To install and configure DDEV, please visit [the DDEV website](https://ddev.com/) and follow the setup instructions.
 
-- Navigate to the CSH folder: `cd commercify-self-hosted`.
-- Open the file `.ddev/config.yaml` and check the versions for PHP and MariaDB. Make sure they are the same as the versions listed above in the `Versions used in the current development environment` section. Alternatively, use your own preferred version at your own risk.
+- Navigate to the CSH directory: `cd commercify-self-hosted`.
+- Open the `.ddev/config.yaml` file and check the PHP and MariaDB versions. Ensure they match the versions listed in the `Versions used in the current development environment` section. Alternatively, you can use your preferred version at your own risk.
 - Start the project: `ddev start`.
 
-The output of `ddev start` should be similar to this:
+The output should be similar to:
 
 ```
-Successfully started self-hosted.commercify.store 
-Project can be reached at https://self-hosted.commercify.store.ddev.site https://127.0.0.1:32769
+Successfully started self-hosted.commercify.store Project can be reached at https://self-hosted.commercify.store.ddev.site https://127.0.0.1:32769
 ```
 
-##### Versions used in the current development environment
+
+##### Versions Used in the Current Development Environment
 
 - **Apache**: 2.4.59
 - **PHP**: 8.2.20
@@ -76,18 +76,19 @@ Project can be reached at https://self-hosted.commercify.store.ddev.site https:/
 - **Composer**: 2.8.5
 - **PHPUnit**: 12.0.2
 
-If you encounter any errors, check the versions of DDEV and Docker. Also check the [DDEV documentation to troubleshoot](https://ddev.readthedocs.io/en/stable/users/usage/troubleshooting/) any issues, or send an email to support@commercify.store if you cannot find a solution.
+If you encounter any issues, verify the versions of DDEV and Docker. You can also refer to the [DDEV documentation for troubleshooting](https://ddev.readthedocs.io/en/stable/users/usage/troubleshooting/), or contact support at support@commercify.store.
 
 ---
 
-#### 3: Or choose your own way
+#### 3. Use Your Own Setup
 
-As mentioned before, CSH can run on any basic LAMP environment. You can also run CSH on Docker for example, if you prefer to just use Docker instead of adding DDEV to your local development environment. Pick your own way to run CSH if you so prefer.
+As mentioned, CSH can run on any basic LAMP environment. You can also choose to run CSH on Docker or any other setup that suits your preferences.
 
 ## Deployment
 
-Currently, CSH does not have any solutions for (automated) deployment. However, because of the straightforward project structure, a simple (S)FTP transfer to a LAMP webserver and database migration is sufficient for deployment. Follow the deployment guidelines in DEPLOYMENT.md for more information on deploying you CSH online store.
+Currently, CSH does not offer an automated deployment solution. However, due to its simple project structure, a basic (S)FTP transfer to a LAMP web server and a database migration is sufficient for deployment. Please refer to the deployment guidelines in `DEPLOYMENT.md` for detailed instructions on deploying your CSH online store.
 
-### Your own implementations for deployment
+### Custom Deployment Implementations
 
-If you wish to work with pipelines (CI/CD for example), you can do that by yourself. CSH is not opinionated on that level. It is simply a LAMP application with a simple setup.
+If you'd like to set up CI/CD pipelines or other custom deployment solutions, you're free to do so. CSH is flexible and not opinionated on deployment strategies. It is essentially a LAMP application with a straightforward setup.
+
