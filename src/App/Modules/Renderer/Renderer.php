@@ -12,6 +12,10 @@ class Renderer
 {
     private Environment $twig;
 
+    /**
+     * @param string $templatesPath
+     * @param string $templatesCachePath
+     */
     public function __construct(string $templatesPath, string $templatesCachePath) {
         $loader = new FilesystemLoader($templatesPath);
 
@@ -22,6 +26,12 @@ class Renderer
         ]);
     }
 
+    /**
+     * @param string $template
+     * @param array $context
+     * 
+     * @return string
+     */
     public function render(string $template, array $context = []): string {
         try {
             return $this->twig->render($template, $context);

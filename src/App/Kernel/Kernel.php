@@ -19,6 +19,12 @@ class Kernel
 
     private RequestValidator $requestValidator;
 
+    /**
+     * @param Psr17Factory $responseFactory
+     * @param ServerRequestInterface $request
+     * @param ControllerFactory $controllerFactory
+     * @param RequestValidator $requestValidator
+     */
     public function __construct(
         Psr17Factory $responseFactory,
         ServerRequestInterface $request,
@@ -31,6 +37,9 @@ class Kernel
         $this->requestValidator = $requestValidator;
     }
 
+    /**
+     * @return ResponseInterface
+     */
     public function handle(): ResponseInterface {
         try {
             $this->requestValidator->validate($this->request);
@@ -38,7 +47,7 @@ class Kernel
             // TODO Pass the correct controllerName based on routing
             $controller = $this->controllerFactory->create('static');
             $httpRequestMethod = strtolower($this->request->getMethod());
-            
+
             $response = $controller->$httpRequestMethod();
 
             return $response;

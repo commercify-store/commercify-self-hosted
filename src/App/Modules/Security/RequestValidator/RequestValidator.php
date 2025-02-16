@@ -9,6 +9,11 @@ use App\Modules\Security\RequestValidator\BadUserAgents;
 
 class RequestValidator
 {
+    /**
+     * @param ServerRequestInterface $request
+     * 
+     * @return void
+     */
     public function validate(ServerRequestInterface $request): void {
         // TODO Add other error cases here, grouped in if conditions for each error code
         if ($this->isBadUserAgent($request)) {
@@ -26,6 +31,11 @@ class RequestValidator
         }
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * 
+     * @return bool
+     */
     private function isBadUserAgent(ServerRequestInterface $request): bool {
         static $pattern = null;
 
@@ -45,6 +55,11 @@ class RequestValidator
         return false;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * 
+     * @return bool
+     */
     private function isInvalidHttpMethod(ServerRequestInterface $request): bool {
         return !in_array(
             strtolower($request->getMethod()),

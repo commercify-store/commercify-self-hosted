@@ -14,6 +14,9 @@ use App\Modules\Security\RequestValidator\RequestValidator;
 
 class KernelFactory
 {
+    /**
+     * @return Kernel
+     */
     public function create(): Kernel {
         $responseFactory = $this->createResponseFactory();
         $request = $this->createRequest($responseFactory);
@@ -35,10 +38,18 @@ class KernelFactory
         );
     }
 
+    /**
+     * @return Psr17Factory
+     */
     private function createResponseFactory(): Psr17Factory {
         return new Psr17Factory();
     }
 
+    /**
+     * @param Psr17Factory $responseFactory
+     * 
+     * @return ServerRequestInterface
+     */
     private function createRequest(Psr17Factory $responseFactory): ServerRequestInterface {
         return (new ServerRequestCreator(
             $responseFactory,
@@ -48,16 +59,25 @@ class KernelFactory
         ))->fromGlobals();
     }
 
+    /**
+     * @return RequestValidator
+     */
     private function createRequestValidator(): RequestValidator {
         return new RequestValidator();
     }
 
+    /**
+     * @return ThemeManager
+     */
     private function createThemeManager(): ThemeManager {
         return new ThemeManager(
             Yaml::parseFile(Constants::THEME_CONFIG_FILE_PATH)
         );
     }
 
+    /**
+     * @return Renderer
+     */
     private function createRenderer(): Renderer {
         return new Renderer(
             Constants::TEMPLATES_PATH,
@@ -65,6 +85,15 @@ class KernelFactory
         );
     }
 
+    /**
+     * Summary of createControllerFactory
+     * @param ServerRequestInterface $request
+     * @param Psr17Factory $responseFactory
+     * @param ThemeManager $themeManager
+     * @param Renderer $renderer
+     * 
+     * @return ControllerFactory
+     */
     private function createControllerFactory(
         ServerRequestInterface $request,
         Psr17Factory $responseFactory,

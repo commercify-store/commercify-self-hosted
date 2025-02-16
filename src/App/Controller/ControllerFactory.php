@@ -19,6 +19,12 @@ class ControllerFactory
 
     private Renderer $renderer;
 
+    /**
+     * @param ServerRequestInterface $request
+     * @param Psr17Factory $responseFactory
+     * @param ThemeManager $themeManager
+     * @param Renderer $renderer
+     */
     public function __construct(
         ServerRequestInterface $request,
         Psr17Factory $responseFactory,
@@ -31,6 +37,11 @@ class ControllerFactory
         $this->renderer = $renderer;
     }
 
+    /**
+     * @param string $controllerName
+     * 
+     * @return ControllerInterface
+     */
     public function create(string $controllerName): ControllerInterface {
         $controllers = [
             // TODO Load this list from a YAML file (related to routes)

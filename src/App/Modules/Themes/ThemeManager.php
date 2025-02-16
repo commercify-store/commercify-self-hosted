@@ -8,10 +8,16 @@ class ThemeManager
 {
     private $themeConfig;
 
+    /**
+     * @param array $themeConfig
+     */
     public function __construct(array $themeConfig) {
         $this->themeConfig = $themeConfig;
     }
 
+    /**
+     * @return Theme
+     */
     public function getActiveTheme(): Theme {
         return new Theme(
             $this->themeConfig['active_theme']['name'],
@@ -20,6 +26,9 @@ class ThemeManager
         );
     }
 
+    /**
+     * @return array
+     */
     public function getInstalledThemes(): array {
         return $this->themeConfig['installed_themes'];
     }

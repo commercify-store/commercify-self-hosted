@@ -9,6 +9,12 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface ControllerInterface
 {
+    /**
+     * @param ServerRequestInterface $request
+     * @param Psr17Factory $responseFactory
+     * @param Theme $activeTheme
+     * @param Renderer $renderer
+     */
     public function __construct(
         ServerRequestInterface $request,
         Psr17Factory $responseFactory,

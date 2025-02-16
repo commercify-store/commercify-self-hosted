@@ -20,6 +20,12 @@ class StaticPageController extends AbstractController implements ControllerInter
 
     private Theme $activeTheme;
 
+    /**
+     * @param ServerRequestInterface $request
+     * @param Psr17Factory $responseFactory
+     * @param Theme $activeTheme
+     * @param Renderer $renderer
+     */
     public function __construct(
         ServerRequestInterface $request,
         Psr17Factory $responseFactory,
@@ -32,6 +38,9 @@ class StaticPageController extends AbstractController implements ControllerInter
         $this->activeTheme = $activeTheme;
     }
 
+    /**
+     * @return ResponseInterface
+     */
     public function get(): ResponseInterface {
         $content = $this->renderer->render("{$this->activeTheme->getPath()}/pages/index.html.twig");
         $responseBody = $this->responseFactory->createStream($content);
