@@ -3,7 +3,6 @@
 use App\Config\Constants;
 use PHPUnit\Framework\TestCase;
 use App\Exceptions\HttpException;
-use Nyholm\Psr7\Factory\Psr17Factory;
 use App\Modules\Security\RequestValidator\RequestValidator;
 use Psr\Http\Message\ServerRequestInterface;
 

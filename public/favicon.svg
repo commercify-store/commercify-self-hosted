@@ -1,16 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="1080" height="1080"><svg id="SvgjsSvg1001" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1080 1080">
-  <!-- Generator: Adobe Illustrator 29.2.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 116)  -->
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="1080" height="1080"><svg id="SvgjsSvg1007" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1080 1080">
+  <!-- Generator: Adobe Illustrator 29.3.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 151)  -->
   <defs>
     <style>
       .st0 {
+        fill: #0084ff;
+      }
+
+      .st1 {
         fill: #fff;
       }
     </style>
   </defs>
-  <circle cx="540" cy="540" r="540"></circle>
+  <circle class="st0" cx="540" cy="540" r="540"></circle>
   <g>
-    <path class="st0" d="M773,502.4h-151.4c-5.6,0-10.7,3.5-12.7,8.8l-10.8,28.9-7.2,19.4c-3.3,8.8,3.2,18.3,12.7,18.3h201.2l28.4-75.3h-60.2Z"></path>
-    <path class="st0" d="M714.2,351.8h0s-43.5,0-43.5,0h-312.7c-46.4,0-88,28.8-104.4,72.2l-56.1,148.6c-28.4,75.2,27.2,155.6,107.6,155.6h442.8l28.4-75.3h-260.6c-19.5,0-32.9-19.4-26.1-37.6l14.1-37.6,14.1-37.6,14.1-37.6,14.1-37.6,4.2-11.3c5.9-15.9,21.1-26.4,38-26.4h273.5l28.4-75.3h-175.8Z"></path>
+    <path class="st1" d="M773,502.4h-151.4c-5.6,0-10.7,3.5-12.7,8.8l-10.8,28.9-7.2,19.4c-3.3,8.8,3.2,18.3,12.7,18.3h201.2l28.4-75.3h-60.2Z"></path>
+    <path class="st1" d="M714.2,351.8h-356.2c-46.4,0-88,28.8-104.4,72.2l-56.1,148.6c-28.4,75.2,27.2,155.6,107.6,155.6h442.8l28.4-75.3h-260.6c-19.5,0-32.9-19.4-26.1-37.6l14.1-37.6,14.1-37.6,14.1-37.6,14.1-37.6,4.2-11.3c5.9-15.9,21.1-26.4,38-26.4h273.5l28.4-75.3h-175.9Z"></path>
   </g>
 </svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
 @media (prefers-color-scheme: dark) { :root { filter: none; } }
