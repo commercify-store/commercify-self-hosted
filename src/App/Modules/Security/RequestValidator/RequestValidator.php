@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Modules\Security\RequestValidator;
 
@@ -14,7 +16,8 @@ class RequestValidator
      * 
      * @return void
      */
-    public function validate(ServerRequestInterface $request): void {
+    public function validate(ServerRequestInterface $request): bool
+    {
         // TODO Add other error cases here, grouped in if conditions for each error code
         if ($this->isBadUserAgent($request)) {
             throw new HttpException(
@@ -29,6 +32,8 @@ class RequestValidator
                 Constants::HTTP_ERRORS[405]['message']
             );
         }
+
+        return true;
     }
 
     /**
@@ -36,7 +41,8 @@ class RequestValidator
      * 
      * @return bool
      */
-    private function isBadUserAgent(ServerRequestInterface $request): bool {
+    private function isBadUserAgent(ServerRequestInterface $request): bool
+    {
         static $pattern = null;
 
         if ($pattern === null) {
@@ -60,7 +66,8 @@ class RequestValidator
      * 
      * @return bool
      */
-    private function isInvalidHttpMethod(ServerRequestInterface $request): bool {
+    private function isInvalidHttpMethod(ServerRequestInterface $request): bool
+    {
         return !in_array(
             strtolower($request->getMethod()),
             Constants::ALLOWED_HTTP_METHODS,

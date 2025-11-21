@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use App\Config\Constants;
 use PHPUnit\Framework\TestCase;
@@ -8,7 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class RequestValidatorTest extends TestCase
 {
-    public function testAllowsGoodUserAgent(): void {
+    public function testAllowsGoodUserAgent(): void
+    {
         $request = $this->createMockRequest(
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
             'GET'
@@ -21,7 +24,8 @@ class RequestValidatorTest extends TestCase
         $requestValidator->validate($request);
     }
 
-    public function testBlocksBadUserAgentWithExactMatch(): void {
+    public function testBlocksBadUserAgentWithExactMatch(): void
+    {
         $request = $this->createMockRequest(
             'AhrefsBot/7.0 (+http://ahrefs.com/robot/)',
             'GET'
@@ -36,7 +40,8 @@ class RequestValidatorTest extends TestCase
         $requestValidator->validate($request);
     }
 
-    public function testBlocksBadUserAgentWithPartialMatch(): void {
+    public function testBlocksBadUserAgentWithPartialMatch(): void
+    {
         $request = $this->createMockRequest(
             'Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)',
             'GET'
@@ -51,7 +56,8 @@ class RequestValidatorTest extends TestCase
         $requestValidator->validate($request);
     }
 
-    public function testBlocksRequestWithInvalidMethod(): void {
+    public function testBlocksRequestWithInvalidMethod(): void
+    {
         $request = $this->createMockRequest(
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
             'FAKE'
@@ -66,7 +72,8 @@ class RequestValidatorTest extends TestCase
         $requestValidator->validate($request);
     }
 
-    public function testAllowsValidHttpMethod(): void {
+    public function testAllowsValidHttpMethod(): void
+    {
         $request = $this->createMockRequest(
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
             'GET'
@@ -79,7 +86,8 @@ class RequestValidatorTest extends TestCase
         $requestValidator->validate($request);
     }
 
-    private function createMockRequest(string $userAgent, string $method): ServerRequestInterface {
+    private function createMockRequest(string $userAgent, string $method): ServerRequestInterface
+    {
         $request = $this->createMock(ServerRequestInterface::class);
 
         $request->method('getHeaderLine')
